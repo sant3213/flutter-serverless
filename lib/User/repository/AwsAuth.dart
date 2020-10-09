@@ -20,7 +20,6 @@ class AwsAuth {
     await amplifyInstance.configure(amplifyconfig);
     try {
         _amplifyConfigured = true;
-       // print("Esta confirgurado--------------------------");
     } catch (e) {
       print(e);
     }

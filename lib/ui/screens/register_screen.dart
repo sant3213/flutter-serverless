@@ -71,28 +71,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           ]
                         ),
-                          TextFormFieldFactory.getTextFormFieldStyleValidator(
+                          textFormFieldFactory(
                               'Nombre *', userRegister.nameController, 'nombre', 'Nombre *', 'Ingrese su nombre'),
-                          TextFormFieldFactory.getTextFormFieldStyleValidator(
+                          textFormFieldFactory(
                               'Apellido *', userRegister.lastNameController, 'apellido', 'Apellido *', 'Ingrese su apellido'),
-                          TextFormFieldFactory.getTextFormFieldStyleValidator(
+                          textFormFieldFactory(
                               'Ciudad *', userRegister.cityController, 'ciudad', 'Ciudad *', 'Ingrese su ciudad'),
-                          TextFormFieldFactory.getTextFormFieldStyleValidator(
+                          textFormFieldFactory(
                               'País *', userRegister.countryController, 'país', 'País *', 'Ingrese su país'),
-                          TextFormFieldFactory.getTextFormFieldStyleValidator(
+                          textFormFieldFactory(
                               'E.P.S. *', userRegister.EPSController, 'E.P.S.', 'E.P.S. *', 'Ingrese su E.P.S.'),
-                          TextFormFieldNumericFactory.getTextFormFieldNumericFactory(
+                          textFormFieldNumericFactory(
                               'Peso *', userRegister.weightController, 'peso', 'Peso *', 'Ingrese su peso'),
-                          TextFormFieldNumericFactory.getTextFormFieldNumericFactory(
+                          textFormFieldNumericFactory(
                               'Estatura *', userRegister.heightController, 'estatura', 'Estatura *', 'Debe ingresar su estatura'),
-                          TextFormFieldNumericFactory.getTextFormFieldNumericFactory(
+                          textFormFieldNumericFactory(
                               'Edad *', userRegister.ageController, 'edad', 'Edad *', 'Ingrese su edad'),
-                          TextFormFieldFactory.getTextFormFieldStyleValidator(
+                          textFormFieldFactory(
                               'Correo *', userRegister.emailController, 'correo', 'Correo *', 'Ingrese su correo'),
-                          TextFormFieldPasswordFactory.getTextFormFieldPasswordValidator(
+                          textFormFieldPasswordFactory(
                               'Contraseña *', userRegister.passwordController, 'contraseña', 'Contraseña *'),
-                          TextFormFieldRepeatedPasswordFactory.getTextFormFieldPasswordValidator(
-                              'Repita su contraseña *', userRegister.passwordController, repeatedPasswordController, 'contraseña', 'Contraseña *'),
+                          textFormFieldRepeatedWidgetPasswordFactory( 'Repita su contraseña *', userRegister.passwordController, repeatedPasswordController, 'contraseña', 'Contraseña *'),
                           RaisedButton(
                               textColor: Colors.white,
                               color: style.ButtonColor,

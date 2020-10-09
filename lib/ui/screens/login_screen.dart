@@ -37,9 +37,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Column(
                         children: [
                           Image.asset('resources/images/heartLogo.png', height: 70, width: 70,),
-                          TextFormFieldFactory.getTextFormFieldStyleValidator('Usuario', user.emailController, 'usuario', 'Usuario *', 'Ingrese su usuario'
+                          textFormFieldFactory('Usuario', user.emailController, 'usuario', 'Usuario *', 'Ingrese su usuario'
                           ),
-                          TextFormFieldPasswordFactory.getTextFormFieldPasswordValidator('Contraseña', user.passwordController,  'Contraseña *', 'Ingrese su contraseña'),
+                          textFormFieldPasswordFactory('Contraseña', user.passwordController,  'Contraseña *', 'Ingrese su contraseña'),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(200.0, 5, 1.0,10),
                             child: new GestureDetector(
