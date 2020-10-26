@@ -20,6 +20,18 @@ Future<String> signUpConfirmation(String code, UserData userData ){
   return awsAuth.signUpConfirmation(code, userData);
 }
 
+Future<void> resendConfirmationCodeSignup(String userName){
+  return awsAuth.resendSignUpCode(userName);
+}
+
+Future<void> forgotPassword(String email, String pass, String code){
+  return awsAuth.forgotPassword(email, pass, code);
+}
+
+Future<void> sendForgotPassCode(String email){
+  return awsAuth.sendForgotPassCode(email);
+}
+
   @override
   void dispose() {
 

@@ -145,7 +145,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
               new FlatButton(
                 child: new Text('Submit'),
                 onPressed: () {
-                  userBloc.signUpConfirmation(confirmationCodeController.text, userRegister);
+                //  userBloc.signUpConfirmation(confirmationCodeController.text, userRegister);
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                },
+              ),
+              new FlatButton(
+                child: new Text('Reenviar código'),
+                onPressed: () {
+                    userBloc.resendConfirmationCodeSignup(userRegister.emailController.text);
                   Navigator.of(context).pop();
                   Navigator.push(
                       context,
@@ -157,18 +167,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
         });
   }
 }
- /* retrieveInformation(){
-    userRegister.name = userRegister.nameController.text;
-    userRegister.lastName = userRegister.lastNameController.text;
-    userRegister.age = userRegister.ageController.text;
-    userRegister.city = userRegister.cityController.text;
-    userRegister.country = userRegister.countryController.text;
-    userRegister.weight = userRegister.weightController.text;
-    userRegister.height = userRegister.heightController.text;
-    userRegister.EPS = userRegister.EPSController.text;
-    userRegister.profession = userRegister.professionController.text;
-    userRegister.email = userRegister.emailController.text;
-    userRegister.password = userRegister.passwordController.text;
-    return userRegister;
-  }*/
 
