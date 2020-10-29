@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_app/User/bloc/bloc_user.dart';
 import 'package:flutter_app/User/model/UserLogin.dart';
 import 'package:flutter_app/ui/screens/forgotPasswordScreen.dart';
+import 'package:flutter_app/ui/screens/publication_screen.dart';
 import 'package:flutter_app/ui/screens/register_screen.dart';
 import 'package:flutter_app/ui/styles/Style.dart';
 import 'package:flutter_app/ui/widgets/Utils.dart';
@@ -66,6 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Text('Entrar'),
                               onPressed: () {
                                 userBloc.signIn(user);
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> PublicationScreen()));
                               },
                             ),
                           ),

@@ -1,19 +1,19 @@
 {
     "dev": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-flutterapp-dev-233029-authRole",
-            "UnauthRoleArn": "arn:aws:iam::693644049667:role/amplify-flutterapp-dev-233029-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::693644049667:role/amplify-flutterapp-dev-233029-authRole",
+            "AuthRoleName": "amplify-heaalthcare-dev-85146-authRole",
+            "UnauthRoleArn": "arn:aws:iam::693644049667:role/amplify-heaalthcare-dev-85146-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::693644049667:role/amplify-heaalthcare-dev-85146-authRole",
             "Region": "us-east-1",
-            "DeploymentBucketName": "amplify-flutterapp-dev-233029-deployment",
-            "UnauthRoleName": "amplify-flutterapp-dev-233029-unauthRole",
-            "StackName": "amplify-flutterapp-dev-233029",
-            "StackId": "arn:aws:cloudformation:us-east-1:693644049667:stack/amplify-flutterapp-dev-233029/845434e0-fd55-11ea-847a-0a39c55408a9",
-            "AmplifyAppId": "doekfssk64b4b"
+            "DeploymentBucketName": "amplify-heaalthcare-dev-85146-deployment",
+            "UnauthRoleName": "amplify-heaalthcare-dev-85146-unauthRole",
+            "StackName": "amplify-heaalthcare-dev-85146",
+            "StackId": "arn:aws:cloudformation:us-east-1:693644049667:stack/amplify-heaalthcare-dev-85146/e357ae90-19ed-11eb-9acc-1261ea05b3bf",
+            "AmplifyAppId": "d2b886ni38cf12"
         },
         "categories": {
             "auth": {
-                "flutterappe8c7c5f1": {}
+                "heaalthcare95d78532": {}
             }
         }
     }

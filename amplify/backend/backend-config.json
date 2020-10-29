@@ -1,16 +1,10 @@
 {
 	"auth": {
-		"flutterappe8c7c5f1": {
+		"heaalthcare95d78532": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [],
 			"customAuth": false
-		}
-	},
-	"analytics": {
-		"flutterapp": {
-			"service": "Pinpoint",
-			"providerPlugin": "awscloudformation"
 		}
 	}
 }
