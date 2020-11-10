@@ -19,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   UserLogin user = UserLogin();
   Style style = new Style();
   TextEditingController emailController = new TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     userBloc = BlocProvider.of(context);
@@ -39,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Column(
                         children: [
                           Image.asset('resources/images/heartLogo.png', height: 70, width: 70,),
-                          textFormFieldFactory('Usuario', user.emailController, 'usuario', 'Usuario *', 'Ingrese su usuario'
+                          textFormFieldEmailFactory('Usuario', user.emailController, 'usuario', 'Usuario *', 'Ingrese su usuario'
                           ),
                           textFormFieldPasswordFactory('Contraseña', user.passwordController,  'Contraseña *', 'Ingrese su contraseña'),
                           Padding(
@@ -47,10 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: new GestureDetector(
                               onTap: (){
                                 _displayDialog(context);
-                               /* Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ForgotPasswordScreen()));*/
+
                               },
                               child:  Text('Olvidé mi contraseña', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13,),textAlign: TextAlign.right),
                             ),
@@ -65,9 +63,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               textColor: Colors.white,
                               color: style.ButtonColor,
                               child: Text('Entrar'),
-                              onPressed: () {
-                                userBloc.signIn(user);
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> PublicationScreen()));
+                              onPressed: () async {
+                                SignInValidate();
                               },
                             ),
                           ),
@@ -99,6 +96,18 @@ class _LoginScreenState extends State<LoginScreen> {
         ])
     );
   }
+
+  SignInValidate() async{
+    bool isSignedIn = await userBloc.signIn(user);
+    if(isSignedIn) {
+      Navigator.push(
+          context, MaterialPageRoute(builder:
+          (context) => PublicationScreen()));
+    } else{
+      popUpWarning(context);
+    }
+  }
+
   _displayDialog(BuildContext context) async {
     return showDialog(
         context: context,
@@ -123,7 +132,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         context,
                         MaterialPageRoute(builder: (context) => ForgotPasswordScreen()));
                   }
-
                 },
               ),
             ],

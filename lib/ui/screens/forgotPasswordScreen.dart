@@ -14,6 +14,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   UserBloc userBloc;
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+  TextEditingController repeatedPasswordController = new TextEditingController();
   TextEditingController codeController = new TextEditingController();
   Style style = new Style();
   @override
@@ -35,9 +36,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       child: Column(
                         children: [
                           Image.asset('resources/images/heartLogo.png', height: 70, width: 70,),
-                          textFormFieldFactory('Usuario', emailController, 'usuario', 'Usuario *', 'Ingrese su usuario'
+                          textFormFieldEmailFactory('Usuario', emailController, 'usuario', 'Usuario *', 'Ingrese su usuario'
                           ),
                           textFormFieldPasswordFactory('Contraseña', passwordController,  'Contraseña *', 'Ingrese su contraseña'),
+                          textFormFieldRepeatedWidgetPasswordFactory( 'Repita su contraseña *', passwordController, repeatedPasswordController, 'contraseña', 'Contraseña *'),
                           textFormFieldPasswordFactory('Ingresa el código que llegó a tu correo', codeController,  'Código *', 'Ingrese el código que le llegó al correo'),
                           ButtonTheme(
                             minWidth: 300.0,
@@ -51,6 +53,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 child: Text('Enviar'),
                                 onPressed: () {
                                   userBloc.forgotPassword(emailController.text, passwordController.text, codeController.text);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginScreen()));
                                 },
                               ),
                             ),

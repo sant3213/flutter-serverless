@@ -12,7 +12,7 @@ Future<String> signUp(UserData userLogin){
   return awsAuth.signUp(userLogin);
 }
 
-Future<String> signIn(UserLogin userLogin){
+Future<bool> signIn(UserLogin userLogin){
   return awsAuth.signIn(userLogin);
 }
 
@@ -30,6 +30,10 @@ Future<void> forgotPassword(String email, String pass, String code){
 
 Future<void> sendForgotPassCode(String email){
   return awsAuth.sendForgotPassCode(email);
+}
+
+Future<void> logout(){
+  return awsAuth.logout();
 }
 
   @override

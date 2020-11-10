@@ -87,7 +87,7 @@ class AwsAuth {
 
   Future<String> signUp(UserData userData) async {
     Map<String, dynamic> userAttributes =  {'email':userData.emailController.text};
-    var result = await Amplify.Auth. signUp(
+    var result = await Amplify.Auth.signUp(
         username: userData.emailController.text,
         password: userData.passwordController.text,
         options: CognitoSignUpOptions(userAttributes: userAttributes));
@@ -110,7 +110,7 @@ class AwsAuth {
     await Amplify.Auth.resendSignUpCode(username: userName);
   }
 
-  Future<String> signIn(UserLogin userLogin) async {
+  Future<bool> signIn(UserLogin userLogin) async {
     Map<String, dynamic> clientMetadata = {'email': userLogin.emailController.text};//emailController.text};
 
 
@@ -120,14 +120,15 @@ class AwsAuth {
 
       if (result.isSignedIn) {
         _sharedPref.setPrefs("isLogguedIn", true);
-        print('SignIn complete');
+       return true;
       } else {
         _sharedPref.setPrefs("isLogguedIn", false);
+        return false;
       }
-    return 'SignIn error';
+    return false;
   }
 
-  Future<void> logout(UserLogin userLogin) async {
+  Future<void> logout() async {
     var result = await Amplify.Auth.signOut();
   }
 

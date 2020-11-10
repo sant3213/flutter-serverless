@@ -27,7 +27,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     userBloc = BlocProvider.of(context);
     return  Scaffold(
-      appBar: SharedAppBar.getAppBar(),
+      appBar: SharedAppBar.getAppBar(true),
     body: ListView(
       children: [
         Center(
@@ -72,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               'Estatura *', userRegister.heightController, 'estatura', 'Estatura *', 'Debe ingresar su estatura'),
                           textFormFieldNumericFactory(
                               'Edad *', userRegister.ageController, 'edad', 'Edad *', 'Ingrese su edad'),
-                          textFormFieldFactory(
+                          textFormFieldEmailFactory(
                               'Correo *', userRegister.emailController, 'correo', 'Correo *', 'Ingrese su correo'),
                           textFormFieldPasswordFactory(
                               'Contraseña *', userRegister.passwordController, 'contraseña', 'Contraseña *'),

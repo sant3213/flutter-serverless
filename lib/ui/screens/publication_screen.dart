@@ -28,22 +28,8 @@ class _PublicationScreenListState extends State<PublicationScreen> {
   Widget publicationUI() {
     userBloc = BlocProvider.of(context);
     return  Scaffold(
-        appBar: SharedAppBar.getAppBar(),
-    bottomNavigationBar: CurvedNavigationBar(
-    backgroundColor: Colors.white,
-    color: style.ButtonColor,
-    height: 40,
-    items: <Widget>[
-    Icon(Icons.account_circle, color: Colors.white,size: 20),
-    Icon(Icons.list, color: Colors.white,size: 20),
-    Icon(Icons.compare_arrows, color: Colors.white, size: 20),
-    ],
-    onTap: (index) {
-    setState(() {
-    // _page = index;
-    });
-    }
-    ),
+        appBar: SharedAppBar.getAppBar(false),
+    bottomNavigationBar: SharedAppBar.getBottonBar(context),
     body:Container(
       decoration: new BoxDecoration(color: Colors.white),
       child: ListView(
