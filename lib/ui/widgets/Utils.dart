@@ -57,6 +57,7 @@ Widget textFormFieldPasswordFactory(String title, TextEditingController controll
 Widget textFormFieldRepeatedWidgetPasswordFactory(String title, TextEditingController password1, TextEditingController controller, String hintTxt, String errorTxt){
   return new TextFormField(
     controller: controller,
+    obscureText: true,
     decoration: InputDecoration(
       labelText: title,
       hintText: hintTxt,
@@ -115,9 +116,8 @@ Future<Widget> popupLogout(BuildContext context) async {
               onPressed: () {
                 _sharedPref.setPrefs("isLogguedIn", false);
                 userBloc.logout();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
               },
             ),
             new FlatButton(

@@ -27,6 +27,7 @@ class AwsAuth {
       print(e);
     }
   }
+
 /*
   void _configureAmplify() async {
 
@@ -86,7 +87,18 @@ class AwsAuth {
   }
 
   Future<String> signUp(UserData userData) async {
-    Map<String, dynamic> userAttributes =  {'email':userData.emailController.text};
+    Map<String, dynamic> userAttributes = {
+      'email': userData.emailController.text,
+      'name': userData.nameController.text,
+      'lastName': userData.lastNameController.text,
+      'age': userData.ageController.text,
+      'city': userData.cityController.text,
+      'country': userData.countryController.text,
+      'EPS': userData.EPSController.text,
+      'weight': userData.weightController.text,
+      'height': userData.heightController.text,
+      'profession': userData.professionController.text
+    };
     var result = await Amplify.Auth.signUp(
         username: userData.emailController.text,
         password: userData.passwordController.text,
@@ -99,32 +111,32 @@ class AwsAuth {
 
   Future<String> signUpConfirmation(String code, UserData userData) async {
     var signUpConfirmResult = await Amplify.Auth.confirmSignUp(
-        username: userData.emailController.text,
-        confirmationCode: code);
-    if(signUpConfirmResult.isSignUpComplete) {
+        username: userData.emailController.text, confirmationCode: code);
+    if (signUpConfirmResult.isSignUpComplete) {
       print('Sign up confirmed');
     }
-    }
+  }
 
   Future<void> resendSignUpCode(String userName) async {
     await Amplify.Auth.resendSignUpCode(username: userName);
   }
 
   Future<bool> signIn(UserLogin userLogin) async {
-    Map<String, dynamic> clientMetadata = {'email': userLogin.emailController.text};//emailController.text};
+    Map<String, dynamic> clientMetadata = {
+      'email': userLogin.emailController.text
+    }; //emailController.text};
 
+    var result = await Amplify.Auth.signIn(
+        username: userLogin.emailController.text,
+        password: userLogin.passwordController.text);
 
-      var result = await Amplify.Auth.signIn(
-          username: userLogin.emailController.text,
-          password: userLogin.passwordController.text);
-
-      if (result.isSignedIn) {
-        _sharedPref.setPrefs("isLogguedIn", true);
-       return true;
-      } else {
-        _sharedPref.setPrefs("isLogguedIn", false);
-        return false;
-      }
+    if (result.isSignedIn) {
+      _sharedPref.setPrefs("isLogguedIn", true);
+      return true;
+    } else {
+      _sharedPref.setPrefs("isLogguedIn", false);
+      return false;
+    }
     return false;
   }
 
@@ -133,7 +145,8 @@ class AwsAuth {
   }
 
   Future<void> forgotPassword(String userName, String pass, String code) async {
-    var resulte = await Amplify.Auth.confirmPassword(username: userName, newPassword: pass, confirmationCode: code)
+    var resulte = await Amplify.Auth.confirmPassword(
+            username: userName, newPassword: pass, confirmationCode: code)
         .then((value) => print(value));
   }
 
