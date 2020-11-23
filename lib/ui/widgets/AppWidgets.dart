@@ -1,9 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/ui/screens/account.dart';
 import 'package:flutter_app/ui/screens/publication_screen.dart';
 import 'package:flutter_app/ui/styles/Style.dart';
 import 'package:flutter_app/ui/widgets/Utils.dart';
-import 'package:flutter_app/utils/SharedPreferences.dart';
 
 class SharedAppBar {
   static getAppBar(isAutomaticallyImplyLeading) {
@@ -27,12 +27,13 @@ class SharedAppBar {
         ));
   }
 
-  static getBottonBar(context){
+  static getBottonBar(context, num index){
     Style style = new Style();
     return CurvedNavigationBar(
         backgroundColor: Colors.white,
         color: style.ButtonColor,
         height: 40,
+        index: index,
         items: <Widget>[
           Icon(Icons.account_circle, color: Colors.white, semanticLabel:"Mi cuenta",size: 20),
           Icon(Icons.list, color: Colors.white,size: 20),
@@ -41,9 +42,9 @@ class SharedAppBar {
         onTap: (index) {
           switch (index) {
             case 0:
-            /*  Navigator.push(
+              Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => myAccount()));*/
+                  MaterialPageRoute(builder: (context) => AccountScreen()));
               break;
             case 1:
               Navigator.push(

@@ -1,0 +1,21 @@
+{
+    "appName": "flutterserverless",
+    "roleName": "pinpointLambdaRole07c33d46",
+    "cloudformationPolicyName": "cloudformationPolicy07c33d46",
+    "cloudWatchPolicyName": "cloudWatchPolicy07c33d46",
+    "pinpointPolicyName": "pinpointPolicy07c33d46",
+    "authPolicyName": "pinpoint_amplify_07c33d46",
+    "unauthPolicyName": "pinpoint_amplify_07c33d46",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

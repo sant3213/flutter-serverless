@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "heaalthcare95d78532_identitypool_95d78532",
-    "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "heaalt95d78532",
-    "userPoolName": "heaalthcare95d78532_userpool_95d78532",
+    "identityPoolName": "flutterserverless666dd5d3_identitypool_666dd5d3",
+    "allowUnauthenticatedIdentities": true,
+    "resourceNameTruncated": "flutte666dd5d3",
+    "userPoolName": "flutterserverless666dd5d3_userpool_666dd5d3",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,10 +28,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "heaalt95d78532_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "flutte666dd5d3_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "95d78532",
-    "resourceName": "heaalthcare95d78532",
+    "sharedId": "666dd5d3",
+    "resourceName": "flutterserverless666dd5d3",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [

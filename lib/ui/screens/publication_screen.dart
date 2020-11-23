@@ -1,7 +1,6 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/User/bloc/bloc_user.dart';
-import 'package:flutter_app/User/model/publicationData.dart';
+import 'file:///C:/Users/sant/Documents/Udea/LastSemester/ComputacionMovil/Healthcare-serverless-flutter/flutter-serverless/lib/queries/model/publicationData.dart';
 import 'package:flutter_app/ui/styles/Style.dart';
 import 'package:flutter_app/ui/widgets/AppWidgets.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
@@ -21,7 +20,6 @@ class _PublicationScreenListState extends State<PublicationScreen> {
   @override
   Widget build(BuildContext context) {
 
-
     return publicationUI();
   }
 
@@ -29,7 +27,7 @@ class _PublicationScreenListState extends State<PublicationScreen> {
     userBloc = BlocProvider.of(context);
     return  Scaffold(
         appBar: SharedAppBar.getAppBar(false),
-    bottomNavigationBar: SharedAppBar.getBottonBar(context),
+    bottomNavigationBar: SharedAppBar.getBottonBar(context, 1),
     body:Container(
       decoration: new BoxDecoration(color: Colors.white),
       child: ListView(

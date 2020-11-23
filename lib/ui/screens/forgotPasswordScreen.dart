@@ -38,9 +38,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           Image.asset('resources/images/heartLogo.png', height: 70, width: 70,),
                           textFormFieldEmailFactory('Usuario', emailController, 'usuario', 'Usuario *', 'Ingrese su usuario'
                           ),
-                          textFormFieldPasswordFactory('Contraseña', passwordController,  'Contraseña *', 'Ingrese su contraseña'),
+                          textFormFieldPasswordValidatorFactory('Contraseña', passwordController,  'Contraseña *', 'Ingrese su contraseña'),
                           textFormFieldRepeatedWidgetPasswordFactory( 'Repita su contraseña *', passwordController, repeatedPasswordController, 'contraseña', 'Contraseña *'),
-                          textFormFieldPasswordFactory('Ingresa el código que llegó a tu correo', codeController,  'Código *', 'Ingrese el código que le llegó al correo'),
+                          textFormFieldPasswordValidatorFactory('Ingresa el código que llegó a tu correo', codeController,  'Código *', 'Ingrese el código que le llegó al correo'),
                           ButtonTheme(
                             minWidth: 300.0,
                             height: 40.0,
@@ -89,7 +89,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 onPressed: () {
                     if(emailController.text.isNotEmpty) {
                   //   userBloc.sendForgotPassCode(emailController.text);
-print("si");
                   }
                   Navigator.of(context).pop();
                   Navigator.push(

@@ -41,6 +41,7 @@ class UserData {
      'email': userData.emailController.text,
     };
   }
+
   UserData();
 
   String get name => _name;

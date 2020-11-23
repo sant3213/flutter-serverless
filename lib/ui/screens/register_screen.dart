@@ -1,4 +1,3 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/User/bloc/bloc_user.dart';
@@ -43,7 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         children: [
                         Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
+                       /* children: <Widget>[
                           new Text('Soy doctor'),
                           Checkbox(
                             value: isDoctor,
@@ -54,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               });
                             },
                           ),
-                          ]
+                          ]*/
                         ),
                           textFormFieldFactory(
                               'Nombre *', userRegister.nameController, 'nombre', 'Nombre *', 'Ingrese su nombre'),
@@ -72,9 +71,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               'Estatura *', userRegister.heightController, 'estatura', 'Estatura *', 'Debe ingresar su estatura'),
                           textFormFieldNumericFactory(
                               'Edad *', userRegister.ageController, 'edad', 'Edad *', 'Ingrese su edad'),
+                          textFormFieldNumericFactory(
+                              'Profesión *', userRegister.professionController, 'profesión', 'Profesión *', 'Ingrese su profesión'),
                           textFormFieldEmailFactory(
                               'Correo *', userRegister.emailController, 'correo', 'Correo *', 'Ingrese su correo'),
-                          textFormFieldPasswordFactory(
+                          textFormFieldPasswordValidatorFactory(
                               'Contraseña *', userRegister.passwordController, 'contraseña', 'Contraseña *'),
                           textFormFieldRepeatedWidgetPasswordFactory( 'Repita su contraseña *', userRegister.passwordController, repeatedPasswordController, 'contraseña', 'Contraseña *'),
                           RaisedButton(
@@ -82,12 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: style.ButtonColor,
                               child: Text("Enviar dato"),
                               onPressed: () {
-                                if (_formKey.currentState.validate()) {
-                                  setState(() {
-                                    userBloc.signUp(userRegister);
-                                  });
-                                  _displayDialog(context);
-                                }
+                                submitRegister();
                               }
                           )
                         ],
@@ -101,6 +97,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ],
     ),
   );
+  }
+  submitRegister() async {
+
+    if (_formKey.currentState.validate())
+    {
+      var signUpResult;
+
+        signUpResult = await userBloc.signUp(userRegister);
+
+      _displayDialog(context);
+      if(!signUpResult) popUpMsg(context, 'El registro no fue exitoso');
+    }
   }
 
   bool validatePasswordStructure(String value){
@@ -127,16 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               decoration: InputDecoration(hintText: "Ingresa el código"),
             ),
             actions: <Widget>[
-              new FlatButton(
-                child: new Text('Submit'),
-                onPressed: () {
-                  userBloc.signUpConfirmation(confirmationCodeController.text, userRegister);
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()));
-                },
-              ),
+
               new FlatButton(
                 child: new Text('Reenviar código'),
                 onPressed: () {
@@ -146,7 +145,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       context,
                       MaterialPageRoute(builder: (context) => LoginScreen()));
                 },
-              )
+              ),
+              new FlatButton(
+                child: new Text('Enviar'),
+                onPressed: () {
+                  userBloc.signUpConfirmation(confirmationCodeController.text, userRegister);
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                },
+              ),
             ],
           );
         });

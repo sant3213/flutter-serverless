@@ -8,15 +8,15 @@ class UserBloc implements Bloc{
 //final _auth_repository = AuthRepository();
 AwsAuth awsAuth = new AwsAuth();
 
-Future<String> signUp(UserData userLogin){
-  return awsAuth.signUp(userLogin);
+Future<bool> signUp(UserData userLogin) async{
+  return await awsAuth.signUp(userLogin);
 }
 
 Future<bool> signIn(UserLogin userLogin){
   return awsAuth.signIn(userLogin);
 }
 
-Future<String> signUpConfirmation(String code, UserData userData ){
+Future<bool> signUpConfirmation(String code, UserData userData ){
   return awsAuth.signUpConfirmation(code, userData);
 }
 

@@ -1,9 +1,11 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/User/bloc/bloc_user.dart';
 import 'package:flutter_app/ui/Functions.dart';
 import 'package:flutter_app/ui/screens/login_screen.dart';
 import 'package:flutter_app/utils/SharedPreferences.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 
 Widget textFormFieldFactory(String title, TextEditingController controller, String reference, String hintTxt, String errorTxt){
@@ -32,13 +34,12 @@ Widget textFormFieldEmailFactory(String title, TextEditingController controller,
       //errorText: errorTxt,
       contentPadding: EdgeInsets.all(8.0),
     ),
-    validator: (input) =>
-    input.isEmpty ? 'Debe ingresar ' + reference : null,
+    validator: (value) => EmailValidator.validate(value) ? null: "Por favor ingrese un email válido",
   );
 }
 
 
-Widget textFormFieldPasswordFactory(String title, TextEditingController controller, String hintTxt, String errorTxt){
+Widget textFormFieldPasswordValidatorFactory(String title, TextEditingController controller, String hintTxt, String errorTxt){
   return new TextFormField(
     controller: controller,
     obscureText: true,
@@ -50,6 +51,23 @@ Widget textFormFieldPasswordFactory(String title, TextEditingController controll
         labelStyle: TextStyle(fontSize: 14)
     ),
     validator: (value)=> Functions.validatePasswordStructure(value)  ? null: "Por favor ingrese una contraseña válida",
+  );
+
+}
+
+Widget textFormFieldPasswordFactory(String title, TextEditingController controller, String reference, String hintTxt, String errorTxt){
+  return new TextFormField(
+    controller: controller,
+    obscureText: true,
+    decoration: InputDecoration(
+        labelText: title,
+        hintText: hintTxt,
+        //errorText: errorTxt,
+        contentPadding: EdgeInsets.all(8.0),
+        labelStyle: TextStyle(fontSize: 14)
+    ),
+    validator: (input) =>
+    input.isEmpty ? 'Debe ingresar ' + reference : null,
   );
 
 }
@@ -83,24 +101,6 @@ Widget textFormFieldNumericFactory(String title, TextEditingController controlle
   );
 }
 
-Future<Widget> popUpWarning(BuildContext context) async {
-  return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Usuario o contraseña inválido'),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text('Ok'),
-              onPressed: () {
-                  Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      });
-}
-
 Future<Widget> popupLogout(BuildContext context) async {
   UserBloc userBloc;
   SharedPref _sharedPref = SharedPref();
@@ -114,7 +114,7 @@ Future<Widget> popupLogout(BuildContext context) async {
             new FlatButton(
               child: new Text('Si'),
               onPressed: () {
-                _sharedPref.setPrefs("isLogguedIn", false);
+                _sharedPref.setBoolPrefs("isLogguedIn", false);
                 userBloc.logout();
                 Navigator.of(context)
                     .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
@@ -130,4 +130,23 @@ Future<Widget> popupLogout(BuildContext context) async {
         );
       });
 }
+
+Future<Widget> popUpMsg(BuildContext context, String msg) async {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(msg),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      });
+}
+
 
