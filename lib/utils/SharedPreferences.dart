@@ -17,7 +17,7 @@ class SharedPref {
     return prefs.getBool(key);
   }
 
-  getprefStringValue(String key) async{
+  void getprefStringValue(String key) async{
     var result;
     SharedPreferences sharedPreferences;
     SharedPreferences.getInstance().then((SharedPreferences sp) {

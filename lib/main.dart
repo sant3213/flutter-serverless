@@ -5,9 +5,20 @@ import 'package:flutter_app/ui/screens/account.dart';
 import 'package:flutter_app/ui/screens/login_screen.dart';
 import 'package:flutter_app/ui/screens/publication_screen.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'User/model/UserLogin.dart';
 
-void main() {
+bool isLogguedIn = false;
+String initialRoute;
+Future<void>  main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  isLogguedIn = prefs.getBool("isLogguedIn");
+
+  if (!isLogguedIn) {
+    initialRoute = '/';
+  } else
+    initialRoute = '/publications';
   runApp(MyApp());
 }
 
@@ -17,33 +28,44 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool _amplifyConfigured = false;
+  bool isLoggued;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   UserLogin user = UserLogin();
   AwsAuth awsAuth = new AwsAuth();
   UserBloc userBloc;
 
+
   @override
   void initState() {
     super.initState();
-    awsAuth.configureAmplify();
+    if(!isLogguedIn)awsAuth.configureAmplify();
+  }
+
+  Future<Null> getLoguinState() async{
+ /*   WidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        isLoggued = prefs.getBool("isLogguedIn");
+      });
+
+      if (!isLoggued) {
+        initialRoute = '/';
+      } else
+        initialRoute = '/publications';*/
   }
 
   @override
   Widget build(BuildContext context) {
-   // userBloc = BlocProvider.of(context);
     return BlocProvider(
         child: MaterialApp(
-           // home:LoginScreen(),
-          initialRoute: '/',
+          initialRoute: initialRoute,
           routes: {
             '/': (context) => LoginScreen(),
             '/publications': (context) => PublicationScreen(),
             '/account': (context) => AccountScreen()
           },
         ),
-        bloc: UserBloc()
-    );
+        bloc: UserBloc());
   }
 }
