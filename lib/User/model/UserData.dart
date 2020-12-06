@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 
 class UserData {
@@ -40,6 +42,23 @@ class UserData {
      'profession': userData.professionController.text,
      'email': userData.emailController.text,
     };
+  }
+
+  factory UserData.fromJson(LinkedHashMap<dynamic, dynamic> source) {
+    UserData userData = new UserData();
+    userData.nameController.text = source['name'];
+    userData.lastNameController.text =  source['lastName'];
+    userData.ageController.text =  source['age'];
+    userData.cityController.text  = source['city'];
+    userData.countryController.text =  source['country'];
+    userData.EPSController.text =  source['EPS'];
+    userData.weightController.text =  source['weight'];
+    userData.heightController.text =  source['height'];
+    userData.professionController.text =  source['profession'];
+    userData.emailController.text =  source['email'];
+    userData.passwordController.text =  source['password'];
+    //userData.diseasesCo =  source['disease'];
+    return userData;
   }
 
   UserData();

@@ -18,7 +18,13 @@ class SharedPref {
   }
 
   getprefStringValue(String key) async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(key);
+    var result;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.getInstance().then((SharedPreferences sp) {
+      sharedPreferences = sp;
+      result = sharedPreferences.get("email");
+      print(result);
+    });
+    return result;
   }
 }

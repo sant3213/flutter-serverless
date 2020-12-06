@@ -74,14 +74,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           textFormFieldNumericFactory(
                               'Profesión *', userRegister.professionController, 'profesión', 'Profesión *', 'Ingrese su profesión'),
                           textFormFieldEmailFactory(
-                              'Correo *', userRegister.emailController, 'correo', 'Correo *', 'Ingrese su correo'),
+                              'Correo *', userRegister.emailController, 'correo', 'Correo *', 'Ingrese su correo', true),
                           textFormFieldPasswordValidatorFactory(
                               'Contraseña *', userRegister.passwordController, 'contraseña', 'Contraseña *'),
                           textFormFieldRepeatedWidgetPasswordFactory( 'Repita su contraseña *', userRegister.passwordController, repeatedPasswordController, 'contraseña', 'Contraseña *'),
                           RaisedButton(
                               textColor: Colors.white,
                               color: style.ButtonColor,
-                              child: Text("Enviar dato"),
+                              child: Text("Actualizar datos"),
                               onPressed: () {
                                 submitRegister();
                               }

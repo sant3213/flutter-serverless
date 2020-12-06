@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
@@ -43,8 +44,10 @@ class AwsAuth {
   }
 
   Future<bool> signUp(UserData userData) async {
-   // Map<String, dynamic> userAttributes = userData.toMap(userData);
-    Map<String, dynamic> userAttributes = {'email':userData.emailController.text};
+    // Map<String, dynamic> userAttributes = userData.toMap(userData);
+    Map<String, dynamic> userAttributes = {
+      'email': userData.emailController.text
+    };
     var result = await Amplify.Auth.signUp(
         username: userData.emailController.text,
         password: userData.passwordController.text,
@@ -60,9 +63,10 @@ class AwsAuth {
     bool response;
 
     await Amplify.Auth.confirmSignUp(
-        username: userData.emailController.text, confirmationCode: code).then((value)=>{
-    value.isSignUpComplete ? response = true : response= false});
-    if(response)saveUserInformation(userData);
+            username: userData.emailController.text, confirmationCode: code)
+        .then((value) =>
+            {value.isSignUpComplete ? response = true : response = false});
+    if (response) saveUserInformation(userData);
     return response;
   }
 
@@ -105,9 +109,8 @@ class AwsAuth {
       _sharedPref.setBoolPrefs("isLogguedIn", false);
       await Amplify.Auth.signOut();
     } catch (error) {
-      print('error signing out: '+ error);
+      print('error signing out: ' + error);
     }
-
   }
 
   Future<void> forgotPassword(String userName, String pass, String code) async {
@@ -124,63 +127,29 @@ class AwsAuth {
     await Amplify.Auth.getCurrentUser().then((value) => print(value));
   }
 
-  Future<void> saveUserInformation(UserData userData){
-    http.post('https://qe7bahgcj8.execute-api.us-east-1.amazonaws.com/pstStage/save-users', headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept':'application/json',
-    },
-      body: jsonEncode(
-        userData.toMap(userData)
-      ),).then((value) => print("retorno----->"+value.toString()));
+  Future<void> saveUserInformation(UserData userData) {
+    http
+        .post(
+          'https://qe7bahgcj8.execute-api.us-east-1.amazonaws.com/pstStage/save-users',
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+          },
+          body: jsonEncode(userData.toMap(userData)),
+        )
+        .then((value) => print("retorno----->" + value.body));
   }
 
-/*
-  void _configureAmplify() async {
-
-    auth = AmplifyAuthCognito();
-    amplify.addPlugin(authPlugins: [auth]);
-    var isSignedIn = false;
-
-    await amplify.configure(amplifyconfig);
-    try {
-      isSignedIn = await _isSignedIn();
-    } on AuthError catch(e) {
-      print("User is not signed in.");
-    }
-
-    setState(() {
-      _isAmplifyConfigured = true;
-      displayState = isSignedIn ? "SIGNED_IN" : "SHOW_SIGN_IN";
-      authState = isSignedIn ? "User already signed in" : "User not signed in";
-    });
-    auth.events.listenToAuth((hubEvent) {
-      switch(hubEvent["eventName"]) {
-        case "SIGNED_IN": {
-          setState(() {
-            hubEvent = "SIGNED_IN";
-          });
-          print("HUB: USER IS SIGNED IN");
-        }
-        break;
-        case "SIGNED_OUT": {
-          setState(() {
-            hubEvent = "SIGNED_OUT";
-          });
-          print("HUB: USER IS SIGNED OUT");
-        }
-        break;
-        case "SESSION_EXPIRED": {
-          setState(() {
-            hubEvent = "SESSION_EXPIRED";
-          });
-          print("HUB: USER SESSION HAS EXPIRED");
-        }
-        break;
-        default: {
-          print("CONFIGURATION EVENT");
-        }
-      }
-    });
-  }*/
-
+    Future<LinkedHashMap<dynamic,dynamic>> getUserInformation(String email) async {
+    var response;
+    var queryStringParameters = {'email': email};
+    var uri = Uri.https('5pn7gol8n4.execute-api.us-east-1.amazonaws.com',
+        '/test/transactions', queryStringParameters);
+    await http.get(uri, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    }).then((value) => {response = json.decode(value.body)});
+    var userInf = json.decode(response["body"]);
+    return userInf;
+  }
 }

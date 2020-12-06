@@ -4,6 +4,7 @@ import 'package:flutter_app/ui/screens/account.dart';
 import 'package:flutter_app/ui/screens/publication_screen.dart';
 import 'package:flutter_app/ui/styles/Style.dart';
 import 'package:flutter_app/ui/widgets/Utils.dart';
+import 'package:flutter_app/utils/SharedPreferences.dart';
 
 class SharedAppBar {
   static getAppBar(isAutomaticallyImplyLeading) {
@@ -27,7 +28,7 @@ class SharedAppBar {
         ));
   }
 
-  static getBottonBar(context, num index){
+  static getBottonBar(context, num index) {
     Style style = new Style();
     return CurvedNavigationBar(
         backgroundColor: Colors.white,
@@ -55,9 +56,6 @@ class SharedAppBar {
               popupLogout(context);
               break;
           }
-         /* setState(() {
-            // _page = index;
-          });*/
         }
     );
   }

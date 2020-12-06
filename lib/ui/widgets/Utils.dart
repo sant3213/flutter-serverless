@@ -7,6 +7,7 @@ import 'package:flutter_app/ui/screens/login_screen.dart';
 import 'package:flutter_app/utils/SharedPreferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Widget textFormFieldFactory(String title, TextEditingController controller, String reference, String hintTxt, String errorTxt){
   return new TextFormField(
@@ -23,8 +24,9 @@ Widget textFormFieldFactory(String title, TextEditingController controller, Stri
   );
 }
 
-Widget textFormFieldEmailFactory(String title, TextEditingController controller, String reference, String hintTxt, String errorTxt){
+Widget textFormFieldEmailFactory(String title, TextEditingController controller, String reference, String hintTxt, String errorTxt, bool enable){
   return new TextFormField(
+    enabled:enable,
     keyboardType: TextInputType.emailAddress,
     controller: controller,
     decoration: InputDecoration(
@@ -113,6 +115,7 @@ Future<Widget> popupLogout(BuildContext context) async {
           actions: <Widget>[
             new FlatButton(
               child: new Text('Si'),
+
               onPressed: () {
                 _sharedPref.setBoolPrefs("isLogguedIn", false);
                 userBloc.logout();

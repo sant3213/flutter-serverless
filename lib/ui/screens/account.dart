@@ -1,21 +1,31 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/User/bloc/bloc_user.dart';
 import 'package:flutter_app/User/model/UserData.dart';
 import 'package:flutter_app/User/repository/AwsAuth.dart';
+import 'package:flutter_app/ui/screens/publication_screen.dart';
 import 'package:flutter_app/ui/styles/Style.dart';
 import 'package:flutter_app/utils/SharedPreferences.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:flutter_app/ui/widgets/AppWidgets.dart';
 import 'package:flutter_app/ui/widgets/Utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountScreen extends StatefulWidget {
+  final String email;
+
+  const AccountScreen({Key key, this.email}) : super(key: key);
+
   @override
   _AccountScreenState createState() => _AccountScreenState();
 }
 
 class _AccountScreenState extends State<AccountScreen> {
   bool isDoctor = false;
+  SharedPreferences sharedPreferences;
   final _formKey = GlobalKey<FormState>();
   UserData userRegister = new UserData();
   TextEditingController repeatedPasswordController = new TextEditingController();
@@ -23,15 +33,15 @@ class _AccountScreenState extends State<AccountScreen> {
   UserBloc userBloc;
   AwsAuth awsAuth = new AwsAuth();
   TextEditingController confirmationCodeController = new TextEditingController();
-  SharedPref _sharedPref = SharedPref();
-
+  UserData user = new UserData();
+  bool _isloading = true;
   @override
   Widget build(BuildContext context) {
-
-    return accountWidget();
+    return _isloading ? spinnerLoading()
+        : accountWidget(context);
   }
 
-  Widget accountWidget(){
+  Widget accountWidget(context) {
     userBloc = BlocProvider.of(context);
     return Scaffold(
       appBar: SharedAppBar.getAppBar(false),
@@ -88,28 +98,43 @@ class _AccountScreenState extends State<AccountScreen> {
                                     textFormFieldEmailFactory(
                                         'Correo *',
                                         userRegister.emailController, 'correo',
-                                        'Correo *', 'Ingrese su correo'),
-                                    textFormFieldPasswordValidatorFactory(
-                                        'Contraseña *',
-                                        userRegister.passwordController,
-                                        'contraseña', 'Contraseña *'),
-                                    textFormFieldRepeatedWidgetPasswordFactory(
-                                        'Repita su contraseña *',
-                                        userRegister.passwordController,
-                                        repeatedPasswordController,
-                                        'contraseña', 'Contraseña *'),
-                                    RaisedButton(
-                                        textColor: Colors.white,
-                                        color: style.ButtonColor,
-                                        child: Text("Enviar dato"),
-                                        onPressed: () {
-                                          if (_formKey.currentState
-                                              .validate()) {
-                                            setState(() {
-                                              userBloc.signUp(userRegister);
-                                            });
-                                          }
-                                        })
+                                        'Correo *', 'Ingrese su correo', false),
+
+                                    ListTile(
+
+                                      title: Row(
+                                        children: [
+                                         Expanded(child:
+
+                                            Padding(
+                                              padding: EdgeInsets.only(right: 15),
+                                              child: RaisedButton(
+                                                  textColor: Colors.white,
+                                                  color: style.ButtonColor,
+                                                  child: Text("Actualizar datos"),
+                                                  onPressed: () {
+
+                                                  }
+                                              ),
+                                            )),
+
+                                          Expanded(child:
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 15),
+                                            child: RaisedButton(
+                                                textColor: Colors.white,
+                                                color: Colors.red,
+                                                child: Text("Cancelar"),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pushNamedAndRemoveUntil('/publications', (Route<dynamic> route) => false);
+
+                                                }
+                                            ),
+                                          ))
+                                        ],
+                                      ),
+                                    ),
                                   ])))
                     ]
                 ),
@@ -121,11 +146,46 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   @override
-  void initState() {
+  void initState()  {
+    getUserInformation();
     super.initState();
-    //print(_sharedPref.getprefStringValue("email"));
-    awsAuth.getCurrentUser();
   }
+
+  getUserInformation(){
+    var email;
+    SharedPreferences.getInstance().then((SharedPreferences sp) async {
+      sharedPreferences = sp;
+      email = sharedPreferences.get("email");
+      Future <LinkedHashMap<dynamic,dynamic>> userInf;
+      userInf =  awsAuth.getUserInformation(email);
+      await userInf.then((value) =>
+      userRegister = UserData.fromJson(value));
+      setFalse();
+    });
+  }
+
+  Widget spinnerLoading() {
+    return Container(
+      color: style.BackgroundColor,
+      child: Center(
+        child: SpinKitWave(
+          color: Colors.white,
+          size: 50.0,
+          duration: Duration(seconds: 1),
+          controller: setFalse(),
+        ),
+      ),
+    );
+  }
+
+  setFalse() {
+    setState(() {
+      _isloading = false;
+    });
+  }
+
+
+
 }
 
 

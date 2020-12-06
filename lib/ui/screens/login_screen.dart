@@ -21,12 +21,12 @@ class _LoginScreenState extends State<LoginScreen> {
   Style style = new Style();
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = new TextEditingController();
-  bool _isloading = false;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     userBloc = BlocProvider.of(context);
-    return _isloading ? spinnerLoading()
+    return _isLoading ? spinnerLoading()
         : loginUI();
   }
 
@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: 70,
                     ),
                     textFormFieldEmailFactory('Usuario', user.emailController,
-                        'usuario', 'Usuario *', 'Ingrese su usuario'),
+                        'usuario', 'Usuario *', 'Ingrese su usuario', true),
                     textFormFieldPasswordFactory(
                         'Contraseña',
                         user.passwordController,
@@ -127,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   SignInValidate() async {
     setState(() {
-      _isloading = true;
+      _isLoading = true;
     });
     bool isSignedIn = await userBloc.signIn(user);
 
@@ -156,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   setFalse() {
     setState(() {
-      _isloading = false;
+      _isLoading = false;
     });
   }
 

@@ -36,7 +36,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       child: Column(
                         children: [
                           Image.asset('resources/images/heartLogo.png', height: 70, width: 70,),
-                          textFormFieldEmailFactory('Usuario', emailController, 'usuario', 'Usuario *', 'Ingrese su usuario'
+                          textFormFieldEmailFactory('Usuario', emailController, 'usuario', 'Usuario *', 'Ingrese su usuario', true
                           ),
                           textFormFieldPasswordValidatorFactory('Contraseña', passwordController,  'Contraseña *', 'Ingrese su contraseña'),
                           textFormFieldRepeatedWidgetPasswordFactory( 'Repita su contraseña *', passwordController, repeatedPasswordController, 'contraseña', 'Contraseña *'),
