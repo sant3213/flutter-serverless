@@ -139,17 +139,4 @@ class AwsAuth {
         )
         .then((value) => print("retorno----->" + value.body));
   }
-
-    Future<LinkedHashMap<dynamic,dynamic>> getUserInformation(String email) async {
-    var response;
-    var queryStringParameters = {'email': email};
-    var uri = Uri.https('5pn7gol8n4.execute-api.us-east-1.amazonaws.com',
-        '/test/transactions', queryStringParameters);
-    await http.get(uri, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    }).then((value) => {response = json.decode(value.body)});
-    var userInf = json.decode(response["body"]);
-    return userInf;
-  }
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/User/bloc/bloc_user.dart';
 import 'package:flutter_app/User/model/UserData.dart';
 import 'package:flutter_app/User/repository/AwsAuth.dart';
+import 'package:flutter_app/User/repository/UserRepository.dart';
 import 'package:flutter_app/ui/screens/publication_screen.dart';
 import 'package:flutter_app/ui/styles/Style.dart';
 import 'package:flutter_app/utils/SharedPreferences.dart';
@@ -32,6 +33,7 @@ class _AccountScreenState extends State<AccountScreen> {
   Style style = new Style();
   UserBloc userBloc;
   AwsAuth awsAuth = new AwsAuth();
+  UserRepository UserRepo = new UserRepository();
   TextEditingController confirmationCodeController = new TextEditingController();
   UserData user = new UserData();
   bool _isloading = true;
@@ -113,7 +115,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                                   color: style.ButtonColor,
                                                   child: Text("Actualizar datos"),
                                                   onPressed: () {
-
+                                                    UserRepo.updateUserInf(userRegister);
                                                   }
                                               ),
                                             )),
@@ -157,7 +159,8 @@ class _AccountScreenState extends State<AccountScreen> {
       sharedPreferences = sp;
       email = sharedPreferences.get("email");
       Future <LinkedHashMap<dynamic,dynamic>> userInf;
-      userInf =  awsAuth.getUserInformation(email);
+      userInf = UserRepo.getUserInformation(email);
+      //userInf =  awsAuth.getUserInformation(email);
       await userInf.then((value) =>
       userRegister = UserData.fromJson(value));
       setFalse();

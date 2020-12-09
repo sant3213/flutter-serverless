@@ -35,24 +35,10 @@ class _MyAppState extends State<MyApp> {
   AwsAuth awsAuth = new AwsAuth();
   UserBloc userBloc;
 
-
   @override
   void initState() {
     super.initState();
     if(!isLogguedIn)awsAuth.configureAmplify();
-  }
-
-  Future<Null> getLoguinState() async{
- /*   WidgetsFlutterBinding.ensureInitialized();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-      setState(() {
-        isLoggued = prefs.getBool("isLogguedIn");
-      });
-
-      if (!isLoggued) {
-        initialRoute = '/';
-      } else
-        initialRoute = '/publications';*/
   }
 
   @override
