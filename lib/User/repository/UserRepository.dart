@@ -15,7 +15,9 @@ class UserRepository {
     await http.get(uri, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-    }).then((value) => {response = json.decode(value.body)});
+    }).then((value) => {
+      response = json.decode(value.body)
+    });
     var userInf = json.decode(response["body"]);
     return userInf;
   }
@@ -32,5 +34,4 @@ class UserRepository {
       )
           .then((value) => print("retorno----->" + value.body));
     }
-
  }

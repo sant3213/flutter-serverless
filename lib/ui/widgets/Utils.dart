@@ -151,5 +151,14 @@ Future<Widget> popUpMsg(BuildContext context, String msg) async {
         );
       });
 }
-
+Widget titleText(String text) {
+  return Text(text,
+    style: TextStyle(
+        color: Colors.grey[800],
+        fontWeight: FontWeight.w900,
+        fontStyle: FontStyle.italic,
+        fontFamily: 'Open Sans',
+        fontSize: 40)
+  );
+}
 

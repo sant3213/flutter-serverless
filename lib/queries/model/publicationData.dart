@@ -1,10 +1,22 @@
+
 import 'package:flutter/cupertino.dart';
 
 class PublicationData {
-
+  String _id;
   String _title;
   String _description;
-  List<String> _comments;
+  String _comments;
+
+  TextEditingController idController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController commentsController = TextEditingController();
+
+  String get id => _id;
+
+  set id(String value) {
+    _id = value;
+  }
 
   String get title => _title;
 
@@ -18,9 +30,18 @@ class PublicationData {
     _description = value;
   }
 
-  List<String> get comments => _comments;
+  String get comments => _comments;
 
-  set comments(List<String> value) {
+  set comments(String value) {
     _comments = value;
+  }
+
+  Map<String, dynamic> toMap(PublicationData publicationData) {
+    return {
+      'id': publicationData.idController.text,
+      'title': publicationData.titleController.text,
+      'description':publicationData.descriptionController.text,
+      'comments': publicationData.commentsController.text
+    };
   }
 }
