@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/User/bloc/bloc_user.dart';
 import 'package:flutter_app/queries/model/publicationData.dart';
@@ -5,6 +7,8 @@ import 'package:flutter_app/queries/queryRepository/queryRepository.dart';
 import 'package:flutter_app/ui/screens/publication_detail.dart';
 import 'package:flutter_app/ui/styles/Style.dart';
 import 'package:flutter_app/ui/widgets/AppWidgets.dart';
+import 'package:flutter_app/ui/widgets/Utils.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -25,10 +29,13 @@ class _PublicationScreenListState extends State<PublicationScreen> {
   PublicationData publicationData = new PublicationData();
   var uuid = Uuid();
   var isSuccess;
-  Future<List<PublicationData>> publicationList;
+  Future<List<dynamic>> publicationDataList;
+  List<PublicationData> publicationList = new List<PublicationData>();
+  bool _isloading = true;
+
   @override
   Widget build(BuildContext context) {
-    return publicationUI();
+    return _isloading ? spinnerLoading() : publicationUI();
   }
 
   Widget publicationUI() {
@@ -50,49 +57,46 @@ class _PublicationScreenListState extends State<PublicationScreen> {
               ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: publications.length,
+                  itemCount: publicationList.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                      color: Colors.transparent,
-                      elevation: 5.0,
-                      margin: new EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 6.0),
-                      child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                              color: style.BackgroundColor,
-                              borderRadius: BorderRadius.circular(15.0)),
-                          child: ListTile(
-                              leading: Icon(
-                                Icons.person,
-                                color: Colors.white,
-                              ),
-                              title: Text('${publications[index].title}',
-                                  overflow: TextOverflow.ellipsis,
-                                  //maxLines: 1,
-                                  softWrap: false,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 20,
-                                  )),
-                              subtitle: Text(
-                                  ('${publications[index].description}'),
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 10)),
-                              isThreeLine: true,
-                              trailing: IconButton(
-                                  icon: Icon(
-                                    Icons.description,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                PublicationDetailScreen()));
-                                  }))),
+                    return Container(
+                      height: 150,
+                      child: Card(
+                        color: Colors.transparent,
+                        elevation: 5.0,
+                        margin: new EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 6.0),
+                        child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: style.BackgroundColor,
+                                borderRadius: BorderRadius.circular(15.0)),
+                            child: ListTile(
+                                leading: Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                ),
+                                title: titleCard(
+                                    '${publicationList[index].titleController.text}'),
+                                subtitle: descriptionCard(
+                                    '${publicationList[index].descriptionController.text}'),
+                                isThreeLine: true,
+                                trailing: IconButton(
+                                    icon: Icon(
+                                      Icons.description,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PublicationDetailScreen(
+                                                      publicationData:
+                                                          publicationList[
+                                                              index])));
+                                    }))),
+                      ),
                     );
                   }),
             ])
@@ -107,20 +111,13 @@ class _PublicationScreenListState extends State<PublicationScreen> {
   }
 
   loadData() async {
-   /* publicationList= queryRepository.getAllQueries();
-    print(publicationList);*/
-    publication1.title = "primero";
-    publication1.description = "primero descripción";
-    //publication1.comments.add("es un comentario");
-    publication1.title = "segundo";
-    publication1.description = "segundo descripción";
-    // publication1.comments.add("es un comentario");
-
-    setState(() {
-      loadPublicationData = true;
-      publications.add(publication1);
-      publications.add(publication2);
-    });
+    publicationDataList = queryRepository.getAllQueries();
+    await publicationDataList.then((value) => value.forEach((element) {
+          setState(() {
+            publicationList.add(PublicationData.fromJson(element));
+          });
+          loadPublicationData = true;
+        }));
   }
 
   Future<Widget> popUpMsg() async {
@@ -132,51 +129,71 @@ class _PublicationScreenListState extends State<PublicationScreen> {
             child: Container(
               height: 300,
               child: WillPopScope(
-                  onWillPop: (){},
-              child:AlertDialog(
-                title: Text('Ingresa los datos'),
-                content: Column(
-                  children: [
-                    TextField(
-                      controller: publicationData.titleController,
-                      textInputAction: TextInputAction.go,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(hintText: "Título"),
+                  onWillPop: () {},
+                  child: AlertDialog(
+                    title: Text('Ingresa los datos'),
+                    content: Column(
+                      children: [
+                        TextField(
+                          controller: publicationData.titleController,
+                          textInputAction: TextInputAction.go,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(hintText: "Título"),
+                        ),
+                        TextField(
+                          controller: publicationData.descriptionController,
+                          textInputAction: TextInputAction.go,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(hintText: "Descripción"),
+                        ),
+                      ],
                     ),
-                    TextField(
-                      controller: publicationData.descriptionController,
-                      textInputAction: TextInputAction.go,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(hintText: "Descripción"),
-                    ),
-                  ],
-                ),
-                actions: <Widget>[
-                  new FlatButton(
-                    child: new Text('Enviar'),
-                    onPressed: () {
-                      publicationData.idController.text = uuid.v1().toString();
-                      isSuccess = queryRepository.saveQueryInf(publicationData);
-                    },
-                  ),
-                  new FlatButton(
-                    child: new Text('Cancelar'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              )),
+                    actions: <Widget>[
+                      new FlatButton(
+                        child: new Text('Enviar'),
+                        onPressed: () {
+                          publicationData.idController.text =
+                              uuid.v1().toString();
+                          isSuccess =
+                              queryRepository.saveQueryInf(publicationData);
+                        },
+                      ),
+                      new FlatButton(
+                        child: new Text('Cancelar'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  )),
             ),
           );
         });
   }
 
-  clearData(){
+  clearData() {
     publicationData.idController.clear();
     publicationData.titleController.clear();
     publicationData.descriptionController.clear();
   }
 
+  Widget spinnerLoading() {
+    return Container(
+      color: style.BackgroundColor,
+      child: Center(
+        child: SpinKitWave(
+          color: Colors.white,
+          size: 50.0,
+          duration: Duration(seconds: 2),
+          controller: setFalse(),
+        ),
+      ),
+    );
+  }
 
+  setFalse() {
+    setState(() {
+      _isloading = false;
+    });
+  }
 }

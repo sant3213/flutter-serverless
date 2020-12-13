@@ -9,7 +9,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Widget textFormFieldFactory(String title, TextEditingController controller, String reference, String hintTxt, String errorTxt){
+Widget textFormFieldFactory(String title, TextEditingController controller,
+    String reference, String hintTxt, String errorTxt) {
   return new TextFormField(
     controller: controller,
     decoration: InputDecoration(
@@ -19,14 +20,14 @@ Widget textFormFieldFactory(String title, TextEditingController controller, Stri
       //errorText: errorTxt,
       contentPadding: EdgeInsets.all(8.0),
     ),
-    validator: (input) =>
-    input.isEmpty ? 'Debe ingresar ' + reference : null,
+    validator: (input) => input.isEmpty ? 'Debe ingresar ' + reference : null,
   );
 }
 
-Widget textFormFieldEmailFactory(String title, TextEditingController controller, String reference, String hintTxt, String errorTxt, bool enable){
+Widget textFormFieldEmailFactory(String title, TextEditingController controller,
+    String reference, String hintTxt, String errorTxt, bool enable) {
   return new TextFormField(
-    enabled:enable,
+    enabled: enable,
     keyboardType: TextInputType.emailAddress,
     controller: controller,
     decoration: InputDecoration(
@@ -36,12 +37,14 @@ Widget textFormFieldEmailFactory(String title, TextEditingController controller,
       //errorText: errorTxt,
       contentPadding: EdgeInsets.all(8.0),
     ),
-    validator: (value) => EmailValidator.validate(value) ? null: "Por favor ingrese un email válido",
+    validator: (value) => EmailValidator.validate(value)
+        ? null
+        : "Por favor ingrese un email válido",
   );
 }
 
-
-Widget textFormFieldPasswordValidatorFactory(String title, TextEditingController controller, String hintTxt, String errorTxt){
+Widget textFormFieldPasswordValidatorFactory(String title,
+    TextEditingController controller, String hintTxt, String errorTxt) {
   return new TextFormField(
     controller: controller,
     obscureText: true,
@@ -50,14 +53,19 @@ Widget textFormFieldPasswordValidatorFactory(String title, TextEditingController
         hintText: hintTxt,
         //errorText: errorTxt,
         contentPadding: EdgeInsets.all(8.0),
-        labelStyle: TextStyle(fontSize: 14)
-    ),
-    validator: (value)=> Functions.validatePasswordStructure(value)  ? null: "Por favor ingrese una contraseña válida",
+        labelStyle: TextStyle(fontSize: 14)),
+    validator: (value) => Functions.validatePasswordStructure(value)
+        ? null
+        : "Por favor ingrese una contraseña válida",
   );
-
 }
 
-Widget textFormFieldPasswordFactory(String title, TextEditingController controller, String reference, String hintTxt, String errorTxt){
+Widget textFormFieldPasswordFactory(
+    String title,
+    TextEditingController controller,
+    String reference,
+    String hintTxt,
+    String errorTxt) {
   return new TextFormField(
     controller: controller,
     obscureText: true,
@@ -66,15 +74,17 @@ Widget textFormFieldPasswordFactory(String title, TextEditingController controll
         hintText: hintTxt,
         //errorText: errorTxt,
         contentPadding: EdgeInsets.all(8.0),
-        labelStyle: TextStyle(fontSize: 14)
-    ),
-    validator: (input) =>
-    input.isEmpty ? 'Debe ingresar ' + reference : null,
+        labelStyle: TextStyle(fontSize: 14)),
+    validator: (input) => input.isEmpty ? 'Debe ingresar ' + reference : null,
   );
-
 }
 
-Widget textFormFieldRepeatedWidgetPasswordFactory(String title, TextEditingController password1, TextEditingController controller, String hintTxt, String errorTxt){
+Widget textFormFieldRepeatedWidgetPasswordFactory(
+    String title,
+    TextEditingController password1,
+    TextEditingController controller,
+    String hintTxt,
+    String errorTxt) {
   return new TextFormField(
     controller: controller,
     obscureText: true,
@@ -84,11 +94,19 @@ Widget textFormFieldRepeatedWidgetPasswordFactory(String title, TextEditingContr
       //errorText: errorTxt,
       contentPadding: EdgeInsets.all(8.0),
     ),
-    validator: (value)=> Functions.validateRepeatedPassword(password1.text, value)  ? null: "Las contraseñas no coinciden",
+    validator: (value) =>
+        Functions.validateRepeatedPassword(password1.text, value)
+            ? null
+            : "Las contraseñas no coinciden",
   );
 }
 
-Widget textFormFieldNumericFactory(String title, TextEditingController controller, String reference, String hintTxt, String errorTxt){
+Widget textFormFieldNumericFactory(
+    String title,
+    TextEditingController controller,
+    String reference,
+    String hintTxt,
+    String errorTxt) {
   return new TextFormField(
     controller: controller,
     keyboardType: TextInputType.number,
@@ -98,8 +116,7 @@ Widget textFormFieldNumericFactory(String title, TextEditingController controlle
       //errorText: errorTxt,
       contentPadding: EdgeInsets.all(8.0),
     ),
-    validator: (input) =>
-    input.isEmpty ? 'Debe ingresar ' + reference : null,
+    validator: (input) => input.isEmpty ? 'Debe ingresar ' + reference : null,
   );
 }
 
@@ -115,12 +132,11 @@ Future<Widget> popupLogout(BuildContext context) async {
           actions: <Widget>[
             new FlatButton(
               child: new Text('Si'),
-
               onPressed: () {
                 _sharedPref.setBoolPrefs("isLogguedIn", false);
                 userBloc.logout();
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/', (Route<dynamic> route) => false);
               },
             ),
             new FlatButton(
@@ -151,14 +167,30 @@ Future<Widget> popUpMsg(BuildContext context, String msg) async {
         );
       });
 }
+
 Widget titleText(String text) {
   return Text(text,
-    style: TextStyle(
-        color: Colors.grey[800],
-        fontWeight: FontWeight.w900,
-        fontStyle: FontStyle.italic,
-        fontFamily: 'Open Sans',
-        fontSize: 40)
-  );
+      style: TextStyle(
+          color: Colors.grey[800],
+          fontWeight: FontWeight.w900,
+          fontStyle: FontStyle.italic,
+          fontFamily: 'Open Sans',
+          fontSize: 30));
 }
 
+Widget titleCard(String title) {
+  return Text(title,
+      overflow: TextOverflow.ellipsis,
+      //maxLines: 1,
+      softWrap: false,
+      style: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.w500,
+        fontSize: 20,
+      ));
+}
+
+Widget descriptionCard(String description) {
+  return Text((description),
+      style: TextStyle(color: Colors.white, fontSize: 16));
+}

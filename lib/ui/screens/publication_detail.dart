@@ -1,24 +1,17 @@
-import 'dart:collection';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/User/bloc/bloc_user.dart';
-import 'package:flutter_app/User/model/UserData.dart';
-import 'package:flutter_app/User/repository/AwsAuth.dart';
 import 'package:flutter_app/User/repository/UserRepository.dart';
-import 'package:flutter_app/ui/screens/publication_screen.dart';
+import 'package:flutter_app/queries/model/publicationData.dart';
 import 'package:flutter_app/ui/styles/Style.dart';
-import 'package:flutter_app/utils/SharedPreferences.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:flutter_app/ui/widgets/AppWidgets.dart';
 import 'package:flutter_app/ui/widgets/Utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PublicationDetailScreen extends StatefulWidget {
-  final String email;
+  final PublicationData publicationData;
 
-  const PublicationDetailScreen({Key key, this.email}) : super(key: key);
+  const PublicationDetailScreen({Key key, this.publicationData}) : super(key: key);
 
   @override
   _PublicationDetailScreenState createState() => _PublicationDetailScreenState();
@@ -55,9 +48,9 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
                                       mainAxisAlignment: MainAxisAlignment
                                           .center,
                                     ),
-                                    titleText('Título'),
-                                    Text('Descripción'),
-                                    Text('Comentarios'),
+                                    titleText(widget.publicationData.titleController.text),
+                                    Text(widget.publicationData.descriptionController.text),
+                                    Text(widget.publicationData.commentsController.text),
                                     ListTile(
                                       title: Row(
                                         children: [

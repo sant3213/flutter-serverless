@@ -1,4 +1,6 @@
 
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 
 class PublicationData {
@@ -11,6 +13,8 @@ class PublicationData {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController commentsController = TextEditingController();
+
+  PublicationData();
 
   String get id => _id;
 
@@ -43,5 +47,15 @@ class PublicationData {
       'description':publicationData.descriptionController.text,
       'comments': publicationData.commentsController.text
     };
+  }
+
+  factory PublicationData.fromJson(LinkedHashMap<dynamic, dynamic> source) {
+    PublicationData publicationData = new PublicationData();
+    publicationData.idController.text = source['id'];
+    publicationData.titleController.text = source['title'];
+    publicationData.descriptionController.text =  source['description'];
+    publicationData.commentsController.text="comentario";
+  //  publicationData.commentsController.text =  source['comments'];
+    return publicationData;
   }
 }

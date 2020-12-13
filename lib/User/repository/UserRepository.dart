@@ -4,7 +4,6 @@ import 'package:flutter_app/User/model/UserData.dart';
 import 'package:http/http.dart' as http;
 
 class UserRepository {
-  bool _amplifyConfigured = false;
   UserData userData = new UserData();
 
   Future<LinkedHashMap<dynamic,dynamic>> getUserInformation(String email) async {
