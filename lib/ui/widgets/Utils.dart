@@ -3,11 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/User/bloc/bloc_user.dart';
 import 'package:flutter_app/ui/Functions.dart';
-import 'package:flutter_app/ui/screens/login_screen.dart';
 import 'package:flutter_app/utils/SharedPreferences.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Widget textFormFieldFactory(String title, TextEditingController controller,
     String reference, String hintTxt, String errorTxt) {
@@ -34,6 +31,40 @@ Widget textFormFieldEmailFactory(String title, TextEditingController controller,
       fillColor: Colors.grey,
       labelText: title,
       hintText: hintTxt,
+      //errorText: errorTxt,
+      contentPadding: EdgeInsets.all(8.0),
+    ),
+    validator: (value) => EmailValidator.validate(value)
+        ? null
+        : "Por favor ingrese un email válido",
+  );
+}
+
+Widget textFormFieldAreaFactory(String title, TextEditingController controller,
+    String reference, String hintTxt, String errorTxt, bool enable) {
+  return new TextFormField(
+
+    maxLines: 7,
+    enabled: enable,
+    keyboardType: TextInputType.emailAddress,
+    controller: controller,
+    decoration: InputDecoration(
+      fillColor: Colors.grey,
+      labelText: title,
+      hintText: hintTxt,
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(25.0),
+        borderSide: BorderSide(
+          color: Colors.blue,
+        ),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(25.0),
+        borderSide: BorderSide(
+          color: Colors.red,
+          width: 2.0,
+        ),
+      ),
       //errorText: errorTxt,
       contentPadding: EdgeInsets.all(8.0),
     ),

@@ -2,18 +2,19 @@
 import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_app/queries/model/userComment.dart';
 
 class PublicationData {
   String _id;
   String _title;
   String _description;
-  String _comments;
+  String userCreator;
+  UserComment userComment;
 
   TextEditingController idController = TextEditingController();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController commentsController = TextEditingController();
-
+  TextEditingController userCreatorController = TextEditingController();
   PublicationData();
 
   String get id => _id;
@@ -34,28 +35,34 @@ class PublicationData {
     _description = value;
   }
 
-  String get comments => _comments;
-
-  set comments(String value) {
-    _comments = value;
-  }
-
   Map<String, dynamic> toMap(PublicationData publicationData) {
-    return {
-      'id': publicationData.idController.text,
-      'title': publicationData.titleController.text,
-      'description':publicationData.descriptionController.text,
-      'comments': publicationData.commentsController.text
-    };
-  }
+      return {
+        'id': publicationData.idController.text,
+        'title': publicationData.titleController.text,
+        'description': publicationData.descriptionController.text,
+        'userCreator': publicationData.userCreatorController.text
+      };
+    }
+
+
+  Map<String, dynamic> toMapFull(PublicationData publicationData, UserComment userComment) {
+      return {
+        'id': publicationData.idController.text,
+        'title': publicationData.titleController.text,
+        'description': publicationData.descriptionController.text,
+        'userCreator': publicationData.userCreatorController.text,
+        'comments': userComment
+      };
+    }
+
 
   factory PublicationData.fromJson(LinkedHashMap<dynamic, dynamic> source) {
     PublicationData publicationData = new PublicationData();
     publicationData.idController.text = source['id'];
     publicationData.titleController.text = source['title'];
+    publicationData.userCreatorController.text = source['userCreator'];
     publicationData.descriptionController.text =  source['description'];
-    publicationData.commentsController.text="comentario";
-  //  publicationData.commentsController.text =  source['comments'];
+  //  publicationData.commentsController.text =  source['comments'],
     return publicationData;
   }
 }

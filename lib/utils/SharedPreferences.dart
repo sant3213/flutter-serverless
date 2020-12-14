@@ -17,13 +17,12 @@ class SharedPref {
     return prefs.getBool(key);
   }
 
-  void getprefStringValue(String key) async{
+  Future<String> getprefStringValue(String key) async{
     var result;
     SharedPreferences sharedPreferences;
     SharedPreferences.getInstance().then((SharedPreferences sp) {
       sharedPreferences = sp;
-      result = sharedPreferences.get("email");
-      print(result);
+      result = sharedPreferences.get("email").toString();
     });
     return result;
   }

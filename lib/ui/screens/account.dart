@@ -158,7 +158,6 @@ class _AccountScreenState extends State<AccountScreen> {
       email = sharedPreferences.get("email");
       Future <LinkedHashMap<dynamic,dynamic>> userInf;
       userInf = UserRepo.getUserInformation(email);
-      //userInf =  awsAuth.getUserInformation(email);
       await userInf.then((value) =>
       userRegister = UserData.fromJson(value));
       setFalse();
@@ -184,9 +183,6 @@ class _AccountScreenState extends State<AccountScreen> {
       _isloading = false;
     });
   }
-
-
-
 }
 
 

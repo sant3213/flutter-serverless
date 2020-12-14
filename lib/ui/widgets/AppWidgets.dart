@@ -4,7 +4,6 @@ import 'package:flutter_app/ui/screens/account.dart';
 import 'package:flutter_app/ui/screens/publication_screen.dart';
 import 'package:flutter_app/ui/styles/Style.dart';
 import 'package:flutter_app/ui/widgets/Utils.dart';
-import 'package:flutter_app/utils/SharedPreferences.dart';
 
 class SharedAppBar {
   static getAppBar(isAutomaticallyImplyLeading) {

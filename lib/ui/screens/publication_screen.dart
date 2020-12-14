@@ -10,6 +10,7 @@ import 'package:flutter_app/ui/widgets/AppWidgets.dart';
 import 'package:flutter_app/ui/widgets/Utils.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class PublicationScreen extends StatefulWidget {
@@ -32,7 +33,7 @@ class _PublicationScreenListState extends State<PublicationScreen> {
   Future<List<dynamic>> publicationDataList;
   List<PublicationData> publicationList = new List<PublicationData>();
   bool _isloading = true;
-
+  SharedPreferences sharedPreferences;
   @override
   Widget build(BuildContext context) {
     return _isloading ? spinnerLoading() : publicationUI();
@@ -94,7 +95,7 @@ class _PublicationScreenListState extends State<PublicationScreen> {
                                                   PublicationDetailScreen(
                                                       publicationData:
                                                           publicationList[
-                                                              index])));
+                                                              index], user:publicationData.userCreatorController.text)));
                                     }))),
                       ),
                     );
@@ -107,10 +108,12 @@ class _PublicationScreenListState extends State<PublicationScreen> {
   @override
   initState() {
     loadData();
+    getUserInformation();
     super.initState();
   }
 
   loadData() async {
+    publicationList.clear();
     publicationDataList = queryRepository.getAllQueries();
     await publicationDataList.then((value) => value.forEach((element) {
           setState(() {
@@ -118,6 +121,7 @@ class _PublicationScreenListState extends State<PublicationScreen> {
           });
           loadPublicationData = true;
         }));
+    setFalse();
   }
 
   Future<Widget> popUpMsg() async {
@@ -127,27 +131,29 @@ class _PublicationScreenListState extends State<PublicationScreen> {
         builder: (context) {
           return Center(
             child: Container(
-              height: 300,
               child: WillPopScope(
                   onWillPop: () {},
                   child: AlertDialog(
-                    title: Text('Ingresa los datos'),
-                    content: Column(
-                      children: [
-                        TextField(
-                          controller: publicationData.titleController,
-                          textInputAction: TextInputAction.go,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(hintText: "Título"),
-                        ),
-                        TextField(
-                          controller: publicationData.descriptionController,
-                          textInputAction: TextInputAction.go,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(hintText: "Descripción"),
-                        ),
-                      ],
-                    ),
+                    title: Text('Ingresa tu publicación'),
+                    content: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: publicationData.titleController,
+                              textInputAction: TextInputAction.go,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(hintText: "Título"),
+                            ),
+                            TextField(
+                              controller: publicationData.descriptionController,
+                              textInputAction: TextInputAction.go,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration:
+                                  InputDecoration(hintText: "Descripción"),
+                            ),
+                          ],
+                        )),
                     actions: <Widget>[
                       new FlatButton(
                         child: new Text('Enviar'),
@@ -156,11 +162,15 @@ class _PublicationScreenListState extends State<PublicationScreen> {
                               uuid.v1().toString();
                           isSuccess =
                               queryRepository.saveQueryInf(publicationData);
+                          Navigator.of(context).pop();
+                          clearData();
+                          loadData();
                         },
                       ),
                       new FlatButton(
                         child: new Text('Cancelar'),
                         onPressed: () {
+                          clearData();
                           Navigator.of(context).pop();
                         },
                       ),
@@ -184,7 +194,7 @@ class _PublicationScreenListState extends State<PublicationScreen> {
         child: SpinKitWave(
           color: Colors.white,
           size: 50.0,
-          duration: Duration(seconds: 2),
+          duration: Duration(seconds: 1),
           controller: setFalse(),
         ),
       ),
@@ -194,6 +204,13 @@ class _PublicationScreenListState extends State<PublicationScreen> {
   setFalse() {
     setState(() {
       _isloading = false;
+    });
+  }
+
+  getUserInformation()async{
+    await SharedPreferences.getInstance().then((SharedPreferences sp) async {
+      sharedPreferences = sp;
+      publicationData.userCreatorController.text = sharedPreferences.get("email");
     });
   }
 }

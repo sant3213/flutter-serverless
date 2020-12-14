@@ -8,15 +8,17 @@ import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'User/model/UserLogin.dart';
 
-bool isLogguedIn = false;
+
+bool isLoggued = false;
 String initialRoute;
 Future<void>  main()async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  isLogguedIn = prefs.getBool("isLogguedIn");
+  var isLogguedIn = prefs.getBool("isLogguedIn");
 
-  if (!isLogguedIn) {
+  if (isLogguedIn==null || !isLogguedIn) {
     initialRoute = '/';
+    isLoggued=false;
   } else
     initialRoute = '/publications';
   runApp(MyApp());
@@ -28,7 +30,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isLoggued;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   UserLogin user = UserLogin();
@@ -38,7 +39,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    if(!isLogguedIn)awsAuth.configureAmplify();
+    if(!isLoggued)awsAuth.configureAmplify();
   }
 
   @override

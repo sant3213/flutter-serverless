@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_app/queries/model/publicationData.dart';
+import 'package:flutter_app/queries/model/userComment.dart';
 import 'package:http/http.dart' as http;
 
 class QueryRepository {
@@ -21,9 +22,11 @@ class QueryRepository {
     return queries;
   }
 
-  Future<String> saveQueryInf(PublicationData publicationData) async {
+  Future<num> saveQueryInf(PublicationData publicationData) async {
     var response;
-    http
+    var tes =publicationData.toMap(publicationData);
+    print(tes);
+    await http
         .post(
       'https://4psc2gqhjg.execute-api.us-east-1.amazonaws.com/publicationTest/publications',
       headers: <String, String>{
@@ -34,10 +37,11 @@ class QueryRepository {
     )
         .then((value) =>
     response= value.statusCode);
+    print(response);
     return response;
   }
 
-  Future<String> updateQueryInf(PublicationData publicationData) async {
+  Future<String> updateQueryInf(PublicationData publicationData, UserComment userComment) async {
     var response;
     http
         .put(
@@ -46,7 +50,7 @@ class QueryRepository {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
       },
-      body: jsonEncode(publicationData.toMap(publicationData)),
+      body: jsonEncode(publicationData.toMapFull(publicationData, userComment))
     )
         .then((value) =>
    response= value.statusCode);
