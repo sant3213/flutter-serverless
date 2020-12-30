@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/User/bloc/bloc_user.dart';
 import 'package:flutter_app/queries/model/publicationData.dart';
@@ -34,6 +32,7 @@ class _PublicationScreenListState extends State<PublicationScreen> {
   List<PublicationData> publicationList = new List<PublicationData>();
   bool _isloading = true;
   SharedPreferences sharedPreferences;
+
   @override
   Widget build(BuildContext context) {
     return _isloading ? spinnerLoading() : publicationUI();
@@ -70,22 +69,40 @@ class _PublicationScreenListState extends State<PublicationScreen> {
                         child: Container(
                             height: 50,
                             decoration: BoxDecoration(
-                                color: style.BackgroundColor,
-                                borderRadius: BorderRadius.circular(15.0)),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10),
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10)
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: Offset(0, 3), // changes position of shadow
+                                ),
+                              ],
+                            ),
                             child: ListTile(
-                                leading: Icon(
+                                /*  leading: Icon(
                                   Icons.person,
                                   color: Colors.white,
-                                ),
+                                ),*/
                                 title: titleCard(
                                     '${publicationList[index].titleController.text}'),
-                                subtitle: descriptionCard(
-                                    '${publicationList[index].descriptionController.text}'),
-                                isThreeLine: true,
+                                subtitle:  descriptionCard( '${ publicationList[index].descriptionController.text}'
+                                        /* publicationList[index].userComment.toString()==null?
+                                    '${publicationList[index].descriptionController.text}'+
+                                    '${ publicationList[index].userComment.commentController.text}':
+                                    '${publicationList[index].descriptionController.text}'*/
+                                        ),
+                               // isThreeLine: true,
                                 trailing: IconButton(
                                     icon: Icon(
                                       Icons.description,
-                                      color: Colors.white,
+                                      color: Colors.black,
                                     ),
                                     onPressed: () {
                                       Navigator.push(
@@ -95,8 +112,13 @@ class _PublicationScreenListState extends State<PublicationScreen> {
                                                   PublicationDetailScreen(
                                                       publicationData:
                                                           publicationList[
-                                                              index], user:publicationData.userCreatorController.text)));
-                                    }))),
+                                                              index],
+                                                      user: publicationData
+                                                          .userCreatorController
+                                                          .text)));
+                                    })
+                            )
+                        ),
                       ),
                     );
                   }),
@@ -151,7 +173,7 @@ class _PublicationScreenListState extends State<PublicationScreen> {
                               keyboardType: TextInputType.emailAddress,
                               decoration:
                                   InputDecoration(hintText: "Descripción"),
-                            ),
+                            )
                           ],
                         )),
                     actions: <Widget>[
@@ -162,9 +184,9 @@ class _PublicationScreenListState extends State<PublicationScreen> {
                               uuid.v1().toString();
                           isSuccess =
                               queryRepository.saveQueryInf(publicationData);
-                          Navigator.of(context).pop();
                           clearData();
                           loadData();
+                          Navigator.of(context).pop();
                         },
                       ),
                       new FlatButton(
@@ -207,10 +229,11 @@ class _PublicationScreenListState extends State<PublicationScreen> {
     });
   }
 
-  getUserInformation()async{
+  getUserInformation() async {
     await SharedPreferences.getInstance().then((SharedPreferences sp) async {
       sharedPreferences = sp;
-      publicationData.userCreatorController.text = sharedPreferences.get("email");
+      publicationData.userCreatorController.text =
+          sharedPreferences.get("email");
     });
   }
 }

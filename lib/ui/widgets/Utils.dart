@@ -42,35 +42,38 @@ Widget textFormFieldEmailFactory(String title, TextEditingController controller,
 
 Widget textFormFieldAreaFactory(String title, TextEditingController controller,
     String reference, String hintTxt, String errorTxt, bool enable) {
-  return new TextFormField(
+  return Padding(
+    padding: const EdgeInsets.all(15.0),
+    child: new TextFormField(
 
-    maxLines: 7,
-    enabled: enable,
-    keyboardType: TextInputType.emailAddress,
-    controller: controller,
-    decoration: InputDecoration(
-      fillColor: Colors.grey,
-      labelText: title,
-      hintText: hintTxt,
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(25.0),
-        borderSide: BorderSide(
-          color: Colors.blue,
+      maxLines: 5,
+      enabled: enable,
+      keyboardType: TextInputType.emailAddress,
+      controller: controller,
+      decoration: InputDecoration(
+        fillColor: Colors.grey,
+        labelText: title,
+        hintText: hintTxt,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: BorderSide(
+            color: Colors.blue,
+          ),
         ),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(25.0),
-        borderSide: BorderSide(
-          color: Colors.red,
-          width: 2.0,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: BorderSide(
+            color: Colors.grey,
+            width: 2.0,
+          ),
         ),
+        //errorText: errorTxt,
+        contentPadding: EdgeInsets.all(8.0),
       ),
-      //errorText: errorTxt,
-      contentPadding: EdgeInsets.all(8.0),
+      validator: (value) => EmailValidator.validate(value)
+          ? null
+          : "Por favor ingrese un email válido",
     ),
-    validator: (value) => EmailValidator.validate(value)
-        ? null
-        : "Por favor ingrese un email válido",
   );
 }
 
@@ -215,7 +218,7 @@ Widget titleCard(String title) {
       //maxLines: 1,
       softWrap: false,
       style: TextStyle(
-        color: Colors.white,
+        color: Colors.black,
         fontWeight: FontWeight.w500,
         fontSize: 20,
       ));
@@ -223,5 +226,5 @@ Widget titleCard(String title) {
 
 Widget descriptionCard(String description) {
   return Text((description),
-      style: TextStyle(color: Colors.white, fontSize: 16));
+      style: TextStyle(color: Colors.black, fontSize: 16));
 }

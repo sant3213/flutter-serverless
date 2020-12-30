@@ -18,14 +18,12 @@ class QueryRepository {
       response = json.decode(value.body)
     });
     queries = response;
-
     return queries;
   }
 
   Future<num> saveQueryInf(PublicationData publicationData) async {
     var response;
     var tes =publicationData.toMap(publicationData);
-    print(tes);
     await http
         .post(
       'https://4psc2gqhjg.execute-api.us-east-1.amazonaws.com/publicationTest/publications',
@@ -37,7 +35,6 @@ class QueryRepository {
     )
         .then((value) =>
     response= value.statusCode);
-    print(response);
     return response;
   }
 
@@ -50,7 +47,7 @@ class QueryRepository {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
       },
-      body: jsonEncode(publicationData.toMapFull(publicationData, userComment))
+      body: jsonEncode(publicationData.toMapFull(publicationData))
     )
         .then((value) =>
    response= value.statusCode);

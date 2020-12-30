@@ -25,9 +25,9 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
   Style style = new Style();
   UserBloc userBloc;
   SharedPreferences sharedPreferences;
-  QueryRepository queryRepository;
+  QueryRepository queryRepository = new QueryRepository();
   bool _isloading = true;
-  UserComment userComment = new UserComment();
+  UserComment userComment = new UserComment.empty();
   PublicationData publicationData;
   @override
   Widget build(BuildContext context) {
@@ -53,6 +53,44 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
                                   children: [
                                     titleText(widget.publicationData.titleController.text),
                                     Text(widget.publicationData.descriptionController.text),
+                              ListView.builder(shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: widget.publicationData.userComment.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      height: 150,
+                                      child: Card(
+                                        color: Colors.transparent,
+                                        elevation: 5.0,
+                                        margin: new EdgeInsets.symmetric(
+                                            horizontal: 10.0, vertical: 6.0),
+                                        child: Container(
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(10),
+                                                  topRight: Radius.circular(10),
+                                                  bottomLeft: Radius.circular(10),
+                                                  bottomRight: Radius.circular(10)
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.8),
+                                                  spreadRadius: 5,
+                                                  blurRadius: 7,
+                                                  offset: Offset(0, 3), // changes position of shadow
+                                                ),
+                                              ],
+                                            ),
+                                            child: ListTile(
+                                            title: titleCard('${widget.publicationData.userComment[index].commentController.text}'),
+                                    subtitle:  descriptionCard('${widget.publicationData.userComment[index].emailController.text}'
+                                            )
+                                        ),
+                                      ),
+                                    ));
+                                  }),
                                     textFormFieldAreaFactory('Comentario',userComment.commentController,'comentario','Ingrese un comentario','comentario', true),
                                     ListTile(
                                       title: Row(
@@ -68,6 +106,8 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
                                                 onPressed: () {
                                                   setValues();
                                                   queryRepository.updateQueryInf(publicationData, userComment);
+                                                  Navigator.of(context).pop();
+                                                  clearValues();
                                                 }
                                             ),
                                           )),
@@ -97,7 +137,11 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
   setValues(){
     publicationData = widget.publicationData;
     userComment.emailController.text = widget.user;
-    publicationData.userComment = userComment;
+    publicationData.userComment.add(userComment);
+  }
+
+  clearValues(){
+    publicationData.userComment.clear();
   }
 
   Widget spinnerLoading() {
