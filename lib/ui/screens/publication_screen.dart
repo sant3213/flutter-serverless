@@ -1,5 +1,9 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/User/bloc/bloc_user.dart';
+import 'package:flutter_app/User/model/UserData.dart';
+import 'package:flutter_app/User/repository/UserRepository.dart';
 import 'package:flutter_app/queries/model/publicationData.dart';
 import 'package:flutter_app/queries/queryRepository/queryRepository.dart';
 import 'package:flutter_app/ui/screens/publication_detail.dart';
@@ -26,11 +30,13 @@ class _PublicationScreenListState extends State<PublicationScreen> {
   UserBloc userBloc;
   QueryRepository queryRepository = new QueryRepository();
   PublicationData publicationData = new PublicationData();
+  UserRepository userRepo = new UserRepository();
   var uuid = Uuid();
   var isSuccess;
   Future<List<dynamic>> publicationDataList;
   List<PublicationData> publicationList = new List<PublicationData>();
   bool _isloading = true;
+  UserData userData = new UserData();
   SharedPreferences sharedPreferences;
 
   @override
@@ -115,7 +121,7 @@ class _PublicationScreenListState extends State<PublicationScreen> {
                                                               index],
                                                       user: publicationData
                                                           .userCreatorController
-                                                          .text)));
+                                                          .text, isDoctor: userData.isDoctorController.text)));
                                     })
                             )
                         ),
@@ -131,6 +137,7 @@ class _PublicationScreenListState extends State<PublicationScreen> {
   initState() {
     loadData();
     getUserInformation();
+    getUserData();
     super.initState();
   }
 
@@ -144,6 +151,18 @@ class _PublicationScreenListState extends State<PublicationScreen> {
           loadPublicationData = true;
         }));
     setFalse();
+  }
+
+  getUserData(){
+    var email;
+    SharedPreferences.getInstance().then((SharedPreferences sp) async {
+      sharedPreferences = sp;
+      email = sharedPreferences.get("email");
+      Future <LinkedHashMap<dynamic,dynamic>> userInf;
+      userInf = userRepo.getUserInformation(email);
+      await userInf.then((value) =>
+      userData = UserData.fromJson(value));
+    });
   }
 
   Future<Widget> popUpMsg() async {

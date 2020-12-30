@@ -14,7 +14,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PublicationDetailScreen extends StatefulWidget {
   final PublicationData publicationData;
   final String user;
-  const PublicationDetailScreen({Key key, this.publicationData, this.user}) : super(key: key);
+  final String  isDoctor;
+  const PublicationDetailScreen({Key key, this.publicationData, this.user, this.isDoctor}) : super(key: key);
 
   @override
   _PublicationDetailScreenState createState() => _PublicationDetailScreenState();
@@ -91,7 +92,11 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
                                       ),
                                     ));
                                   }),
-                                    textFormFieldAreaFactory('Comentario',userComment.commentController,'comentario','Ingrese un comentario','comentario', true),
+      widget.isDoctor=="true"?
+                                    Column(
+                                      children: [
+                                        textFormFieldAreaFactory('Comentario',userComment.commentController,'comentario','Ingrese un comentario','comentario', true),
+
                                     ListTile(
                                       title: Row(
                                         children: [
@@ -114,6 +119,9 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
                                         ],
                                       ),
                                     ),
+                                      ],
+                                    )
+          : Text('')
                                   ])))
                     ]
                 ),

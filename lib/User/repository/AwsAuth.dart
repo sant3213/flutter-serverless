@@ -79,18 +79,6 @@ class AwsAuth {
             password: userLogin.passwordController.text)
         .then((value) => result = value.isSignedIn)
         .catchError((err) => result = false);
-/*
-    final resp = await Amplify.Auth.fetchAuthSession(
-      options: CognitoSessionOptions(getAWSCredentials: true),
-    );
-
-    if (resp.isSignedIn) {
-      final sess = resp as CognitoAuthSession;
-  print(sess.userPoolTokens.accessToken);
-  print(sess.credentials.sessionToken);
-      print(sess.userPoolTokens);
-    }
-*/
 
     if (result) {
       _sharedPref.setBoolPrefs("isLogguedIn", true);

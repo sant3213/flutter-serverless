@@ -15,7 +15,7 @@ class UserData {
   String _profession;
   String _email;
   String _password;
-  List _diseases;
+  bool _isDoctor;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -28,6 +28,7 @@ class UserData {
   TextEditingController EPSController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   TextEditingController heightController = TextEditingController();
+  TextEditingController isDoctorController = TextEditingController();
 
   Map<String, dynamic> toMap(UserData userData) {
     return {
@@ -41,6 +42,7 @@ class UserData {
      'height': userData.heightController.text,
      'profession': userData.professionController.text,
      'email': userData.emailController.text,
+      'isDoctor': userData.isDoctorController.text,
     };
   }
 
@@ -57,7 +59,8 @@ class UserData {
     userData.professionController.text =  source['profession'];
     userData.emailController.text =  source['email'];
     userData.passwordController.text =  source['password'];
-    //userData.diseasesCo =  source['disease'];
+    userData.passwordController.text =  source['password'];
+    userData.isDoctorController.text =  source['isDoctor'];
     return userData;
   }
 
@@ -117,12 +120,6 @@ class UserData {
     _profession = value;
   }
 
-  List get diseases => _diseases;
-
-  set diseases(List value) {
-    _diseases = value;
-  }
-
   String get email => _email;
 
   set email(String value) {
@@ -133,5 +130,11 @@ class UserData {
 
   set password(String value) {
     _password = value;
+  }
+
+  bool get isDoctor => _isDoctor;
+
+  set isDoctor(bool value) {
+    _isDoctor = value;
   }
 }

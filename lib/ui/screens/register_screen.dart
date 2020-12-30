@@ -42,18 +42,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         children: [
                         Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                       /* children: <Widget>[
+                        children: <Widget>[
                           new Text('Soy doctor'),
                           Checkbox(
                             value: isDoctor,
                             checkColor: style.BackgroundColor,
                             onChanged: (bool value) {
                               setState(() {
-                                isDoctor = value;
+                               isDoctor = value;
                               });
                             },
                           ),
-                          ]*/
+                          ]
                         ),
                           textFormFieldFactory(
                               'Nombre *', userRegister.nameController, 'nombre', 'Nombre *', 'Ingrese su nombre'),
@@ -103,9 +103,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_formKey.currentState.validate())
     {
       var signUpResult;
-
+        userRegister.isDoctorController.text = isDoctor.toString();
         signUpResult = await userBloc.signUp(userRegister);
-
       _displayDialog(context);
       if(!signUpResult) popUpMsg(context, 'El registro no fue exitoso');
     }
