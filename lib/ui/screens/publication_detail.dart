@@ -4,6 +4,7 @@ import 'package:flutter_app/User/bloc/bloc_user.dart';
 import 'package:flutter_app/queries/model/publicationData.dart';
 import 'package:flutter_app/queries/model/userComment.dart';
 import 'package:flutter_app/queries/queryRepository/queryRepository.dart';
+import 'package:flutter_app/ui/screens/publication_screen.dart';
 import 'package:flutter_app/ui/styles/Style.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
@@ -14,11 +15,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PublicationDetailScreen extends StatefulWidget {
   final PublicationData publicationData;
   final String user;
-  final String  isDoctor;
-  const PublicationDetailScreen({Key key, this.publicationData, this.user, this.isDoctor}) : super(key: key);
+  final String isDoctor;
+
+  const PublicationDetailScreen(
+      {Key key, this.publicationData, this.user, this.isDoctor})
+      : super(key: key);
 
   @override
-  _PublicationDetailScreenState createState() => _PublicationDetailScreenState();
+  _PublicationDetailScreenState createState() =>
+      _PublicationDetailScreenState();
 }
 
 class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
@@ -30,6 +35,7 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
   bool _isloading = true;
   UserComment userComment = new UserComment.empty();
   PublicationData publicationData;
+
   @override
   Widget build(BuildContext context) {
     return accountWidget(context);
@@ -52,76 +58,105 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
                               padding: EdgeInsets.all(10.0),
                               child: Column(
                                   children: [
-                                    titleText(widget.publicationData.titleController.text),
-                                    Text(widget.publicationData.descriptionController.text),
-                              ListView.builder(shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: widget.publicationData.userComment.length,
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      height: 150,
-                                      child: Card(
-                                        color: Colors.transparent,
-                                        elevation: 5.0,
-                                        margin: new EdgeInsets.symmetric(
-                                            horizontal: 10.0, vertical: 6.0),
-                                        child: Container(
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(10),
-                                                  topRight: Radius.circular(10),
-                                                  bottomLeft: Radius.circular(10),
-                                                  bottomRight: Radius.circular(10)
-                                              ),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey.withOpacity(0.8),
-                                                  spreadRadius: 5,
-                                                  blurRadius: 7,
-                                                  offset: Offset(0, 3), // changes position of shadow
+                                    titleText(widget.publicationData
+                                        .titleController.text),
+                                    Text(widget.publicationData
+                                        .descriptionController.text),
+                                    ListView.builder(shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: widget.publicationData
+                                            .userComment.length,
+                                        itemBuilder: (context, index) {
+                                          return Container(
+                                              height: 150,
+                                              child: Card(
+                                                color: Colors.transparent,
+                                                elevation: 5.0,
+                                                margin: new EdgeInsets
+                                                    .symmetric(
+                                                    horizontal: 10.0,
+                                                    vertical: 6.0),
+                                                child: Container(
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius
+                                                        .only(
+                                                        topLeft: Radius
+                                                            .circular(10),
+                                                        topRight: Radius
+                                                            .circular(10),
+                                                        bottomLeft: Radius
+                                                            .circular(10),
+                                                        bottomRight: Radius
+                                                            .circular(10)
+                                                    ),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.8),
+                                                        spreadRadius: 5,
+                                                        blurRadius: 7,
+                                                        offset: Offset(0,
+                                                            3), // changes position of shadow
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  child: ListTile(
+                                                      title: titleCard('${widget
+                                                          .publicationData
+                                                          .userComment[index]
+                                                          .commentController
+                                                          .text}'),
+                                                      subtitle: descriptionCard(
+                                                          '${widget
+                                                              .publicationData
+                                                              .userComment[index]
+                                                              .emailController
+                                                              .text}'
+                                                      )
+                                                  ),
                                                 ),
-                                              ],
-                                            ),
-                                            child: ListTile(
-                                            title: titleCard('${widget.publicationData.userComment[index].commentController.text}'),
-                                    subtitle:  descriptionCard('${widget.publicationData.userComment[index].emailController.text}'
-                                            )
-                                        ),
-                                      ),
-                                    ));
-                                  }),
-      widget.isDoctor=="true"?
+                                              ));
+                                        }),
+                                    widget.isDoctor == "true" ?
                                     Column(
                                       children: [
-                                        textFormFieldAreaFactory('Comentario',userComment.commentController,'comentario','Ingrese un comentario','comentario', true),
+                                        textFormFieldAreaFactory('Comentario',
+                                            userComment.commentController,
+                                            'comentario',
+                                            'Ingrese un comentario',
+                                            'comentario', true),
 
-                                    ListTile(
-                                      title: Row(
-                                        children: [
-                                          Expanded(child:
+                                        ListTile(
+                                          title: Row(
+                                            children: [
+                                              Expanded(child:
 
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 15),
-                                            child: RaisedButton(
-                                                textColor: Colors.white,
-                                                color: style.ButtonColor,
-                                                child: Text("Comentar"),
-                                                onPressed: () {
-                                                  setValues();
-                                                  queryRepository.updateQueryInf(publicationData, userComment);
-                                                  Navigator.of(context).pop();
-                                                  clearValues();
-                                                }
-                                            ),
-                                          )),
-                                        ],
-                                      ),
-                                    ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: 15),
+                                                child: RaisedButton(
+                                                    textColor: Colors.white,
+                                                    color: style.ButtonColor,
+                                                    child: Text("Comentar"),
+                                                    onPressed: () {
+                                                      setValues();
+                                                      queryRepository
+                                                          .updateQueryInf(
+                                                          publicationData,
+                                                          userComment);
+                                                      Navigator.push(context, MaterialPageRoute(  builder: (context) => PublicationScreen()));
+                                                      clearValues();
+                                                    }
+                                                ),
+                                              )),
+                                            ],
+                                          ),
+                                        ),
                                       ],
                                     )
-          : Text('')
+                                        : Text('')
                                   ])))
                     ]
                 ),
@@ -133,22 +168,22 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
   }
 
   @override
-  void initState()  {
+  void initState() {
     super.initState();
   }
 
   getUserInformation() {
-      userComment.emailController.text =  widget.user;
+    userComment.emailController.text = widget.user;
     setFalse();
   }
 
-  setValues(){
+  setValues() {
     publicationData = widget.publicationData;
     userComment.emailController.text = widget.user;
     publicationData.userComment.add(userComment);
   }
 
-  clearValues(){
+  clearValues() {
     publicationData.userComment.clear();
   }
 

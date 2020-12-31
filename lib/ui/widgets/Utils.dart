@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/User/bloc/bloc_user.dart';
 import 'package:flutter_app/ui/Functions.dart';
+import 'package:flutter_app/ui/screens/publication_screen.dart';
+import 'package:flutter_app/ui/widgets/AppWidgets.dart';
 import 'package:flutter_app/utils/SharedPreferences.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 
@@ -106,7 +108,6 @@ Widget textFormFieldPasswordFactory(
     decoration: InputDecoration(
         labelText: title,
         hintText: hintTxt,
-        //errorText: errorTxt,
         contentPadding: EdgeInsets.all(8.0),
         labelStyle: TextStyle(fontSize: 14)),
     validator: (input) => input.isEmpty ? 'Debe ingresar ' + reference : null,
@@ -176,7 +177,8 @@ Future<Widget> popupLogout(BuildContext context) async {
             new FlatButton(
               child: new Text('No'),
               onPressed: () {
-                Navigator.of(context).pop();
+                SharedAppBar.getBottonBar(context,1);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => PublicationScreen()));
               },
             ),
           ],

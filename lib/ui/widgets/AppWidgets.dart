@@ -35,7 +35,7 @@ class SharedAppBar {
         height: 40,
         index: index,
         items: <Widget>[
-          Icon(Icons.account_circle, color: Colors.white, semanticLabel:"Mi cuenta",size: 20),
+          Icon(Icons.account_circle, color: Colors.white, semanticLabel:"Mi cuenta", size: 20),
           Icon(Icons.list, color: Colors.white,size: 20),
           Icon(Icons.exit_to_app, color: Colors.white, size: 20),
         ],

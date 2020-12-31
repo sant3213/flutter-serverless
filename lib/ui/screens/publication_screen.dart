@@ -73,57 +73,64 @@ class _PublicationScreenListState extends State<PublicationScreen> {
                         margin: new EdgeInsets.symmetric(
                             horizontal: 10.0, vertical: 6.0),
                         child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10)
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
                               ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(0, 3), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: ListTile(
-                                /*  leading: Icon(
-                                  Icons.person,
-                                  color: Colors.white,
-                                ),*/
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              ListTile(
                                 title: titleCard(
                                     '${publicationList[index].titleController.text}'),
-                                subtitle:  descriptionCard( '${ publicationList[index].descriptionController.text}'
-                                        /* publicationList[index].userComment.toString()==null?
-                                    '${publicationList[index].descriptionController.text}'+
-                                    '${ publicationList[index].userComment.commentController.text}':
-                                    '${publicationList[index].descriptionController.text}'*/
+                                subtitle: descriptionCard(
+                                    '${publicationList[index].descriptionController.text}'),
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 250.0),
+                                    child: IconButton(
+                                        icon: Icon(
+                                          Icons.comment,
+                                          color: Colors.black,
                                         ),
-                               // isThreeLine: true,
-                                trailing: IconButton(
-                                    icon: Icon(
-                                      Icons.description,
-                                      color: Colors.black,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PublicationDetailScreen(
-                                                      publicationData:
-                                                          publicationList[
-                                                              index],
-                                                      user: publicationData
-                                                          .userCreatorController
-                                                          .text, isDoctor: userData.isDoctorController.text)));
-                                    })
-                            )
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PublicationDetailScreen(
+                                                          publicationData:
+                                                              publicationList[
+                                                                  index],
+                                                          user: publicationData
+                                                              .userCreatorController
+                                                              .text,
+                                                          isDoctor: userData
+                                                              .isDoctorController
+                                                              .text)));
+                                        }),
+                                  ),
+                                  Text(
+                                      '${publicationList[index].userComment.length}'),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     );
@@ -153,15 +160,14 @@ class _PublicationScreenListState extends State<PublicationScreen> {
     setFalse();
   }
 
-  getUserData(){
+  getUserData() {
     var email;
     SharedPreferences.getInstance().then((SharedPreferences sp) async {
       sharedPreferences = sp;
       email = sharedPreferences.get("email");
-      Future <LinkedHashMap<dynamic,dynamic>> userInf;
+      Future<LinkedHashMap<dynamic, dynamic>> userInf;
       userInf = userRepo.getUserInformation(email);
-      await userInf.then((value) =>
-      userData = UserData.fromJson(value));
+      await userInf.then((value) => userData = UserData.fromJson(value));
     });
   }
 
